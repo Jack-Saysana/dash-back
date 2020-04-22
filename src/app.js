@@ -6,8 +6,14 @@ const session = require('express-session');
 const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require('passport');
-const router = require("../router/routes.js");
+const router = require("../router/router.js");
+const mongoose = require("mongoose");
 require('../config/passport.config.js')(passport);
+
+mongoose.connect('mongodb://localhost/auth', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
