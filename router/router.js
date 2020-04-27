@@ -82,20 +82,94 @@ router.get("/user/:name/:folderId", isLoggedIn, async (req, res) => {
     if(req.params.folderId == "dashboard"){
         res.send(user.content);
     }else{
-        
+        let display = null;
+        user.content.forEach(folder => {
+            if(folder.id == req.params.folderId){
+                display = folder.content;
+            }
+        });
     }
 });
 
-router.post("/bookmarks", async (req, res) => {
-
+//Create Bookmark
+router.post("/bookmarks", isLoggedIn, async (req, res) => {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    if(req.params.folderId == "dashboard"){
+        user.content.push({
+            id: uuid(),
+            type: "bookmark"
+            //Bookmark attributes
+        });
+    }else{
+        user.content.forEach(folder => {
+            if(folder.id == req.params.folderId){
+                folder.content.push({
+                    id: uuid(),
+                    type: "bookmark"
+                    //Bookmark attributes
+                })
+            }
+        });
+    }
+    try {
+        await user.save();
+        res.redirect("/bookmarks");
+    } catch (err) {
+        res.status(400);
+    }
 });
 
-router.post("/delete", (req, res) => {
-
+//Create Folder
+router.post("/folder", isLoggedIn, async (req, res) => {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    if(user.folderCount < 3){
+        user.content.push({
+            id: uuid(),
+            type: "folder",
+            content: []
+        });
+        user.folderCount++;
+        try {
+            await user.save();
+            res.redirect("/bookmarks");
+        } catch (err) {
+            res.status(400);
+        }
+    }else{
+        res.json({message: "Max folders 3"});
+    }
 });
 
-router.post("/update", (req, res) => {
+// UI NOTE - flash warning message if deleting a folder with contents
 
+//Delete bookmark or folder
+router.post("/delete", isLoggedIn, async (req, res) => {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    if(req.params.id != null){
+        for(let i = 0; i < user.content.length; i++){
+            if(user.content[i].id == req.params.id){
+                user.content.splice(i, 1);
+            }else if(user.content[i].type == "folder"){
+                //Check inside folders
+                for(let g = 0; g < user.content[i].content.length; g++){
+                    if (user.content[i].content[g].id == req.params.id){
+                        user.content[i].content.splice(g, 1);
+                    }
+                }
+            }
+        }
+        try {
+            await user.save();
+            res.redirect("/bookmarks");
+        } catch (err) {
+            res.status(400);
+        }
+    }
+});
+
+//Update bookmark
+router.post("/update", isLoggedIn, async (req, res) => {
+    const user = await User.findOne({ user_id: req.user.user_id });
 });
 
 function isLoggedIn(req, res, next){

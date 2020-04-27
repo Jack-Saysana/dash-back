@@ -9,6 +9,10 @@ const userSchema = new Schema({
     content: {
         type: Array,
         required: true
+    },
+    folderCount: {
+        type: Number,
+        default: 0
     }
 });
 
