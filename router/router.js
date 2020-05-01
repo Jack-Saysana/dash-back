@@ -9,6 +9,8 @@ const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
 const getFavicons = require('get-website-favicon');
 require("dotenv").config();
+const mixpanel = require('mixpanel-browser');
+mixpanel.init("eb0a30592efe286cce4daa7c8b19bee4");
 
 //Login Handling
 router.get(
