@@ -151,7 +151,7 @@
                                 <a href="<%= entity.content.url %>" target="_blank">
                                     <button class="yellow-btn option-btn">Open</button>
                                 </a>
-                                <button class="yellow-btn option-btn">Back</button>
+                                <a class="yellow-btn option-btn" href="/user/<%= folder.id %>">Back</a>
                                 <form action="/delete?id=<%= entity.id %>" method="POST">
                                     <button type="submit" class="btn btn-dark option-btn">Delete</button>
                                 </form>
@@ -171,29 +171,33 @@
     <nav class="context-menu">
         <ul class="context-menu-items">
             <div class="context-menu-container">
-                <li class="context-menu-item context-menu-top">
-                    <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M1.5 13A1.5 1.5 0 003 14.5h8a1.5 1.5 0 001.5-1.5V9a.5.5 0 00-1 0v4a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5V5a.5.5 0 01.5-.5h4a.5.5 0 000-1H3A1.5 1.5 0 001.5 5v8zm7-11a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V2.5H9a.5.5 0 01-.5-.5z"
-                            clip-rule="evenodd" />
-                        <path fill-rule="evenodd"
-                            d="M14.354 1.646a.5.5 0 010 .708l-8 8a.5.5 0 01-.708-.708l8-8a.5.5 0 01.708 0z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <a class="context-menu-link" data-action="view">Edit</a>
-                </li>
-                <li class="context-menu-item context-menu-bottom">
-                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
-                        <path fill-rule="evenodd"
-                            d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <a class="context-menu-link" data-action="delete">Delete</a>
-                </li>
+                <a class="context-menu-link" data-action="view">
+                    <li class="context-menu-item context-menu-top">
+                        <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16"
+                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M1.5 13A1.5 1.5 0 003 14.5h8a1.5 1.5 0 001.5-1.5V9a.5.5 0 00-1 0v4a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5V5a.5.5 0 01.5-.5h4a.5.5 0 000-1H3A1.5 1.5 0 001.5 5v8zm7-11a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V2.5H9a.5.5 0 01-.5-.5z"
+                                clip-rule="evenodd" />
+                            <path fill-rule="evenodd"
+                                d="M14.354 1.646a.5.5 0 010 .708l-8 8a.5.5 0 01-.708-.708l8-8a.5.5 0 01.708 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Edit
+                    </li>
+                </a>
+                <a class="context-menu-link" data-action="delete">
+                    <li class="context-menu-item context-menu-bottom">
+                        <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Delete
+                    </li>
+                </a>
             </div>
         </ul>
         <form action="" method="POST" id="context-menu-action"></form>

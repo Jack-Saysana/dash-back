@@ -90,7 +90,7 @@ router.get("/user/:folderId", isLoggedIn, async (req, res) => {
     }else{
         let display = null;
         user.content.forEach(folder => {
-            if(folder.id == req.params.folderId){
+            if(folder.id == req.params.folderId && folder.type == "folder"){
                 display = folder;
             }
         });
@@ -174,6 +174,11 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
                 user.bookmarkCount++;
             }
             await user.save();
+            mixpanel.track("Bookmark Added", {
+                user_id: user.user_id,
+                url: url,
+                notes: req.body.notes.length > 0 ? 1 : 0
+            });
             if (req.query.folderId == "dashboard") {
                 res.redirect("/bookmarks");
             } else {
@@ -205,6 +210,9 @@ router.post("/folder", isLoggedIn, async (req, res) => {
         user.folderCount++;
         try {
             await user.save();
+            mixpanel.track("Folder added", {
+                user_id: user.user_id
+            });
             res.redirect("/bookmarks");
         } catch (err) {
             res.status(400);
@@ -248,6 +256,10 @@ router.post("/delete", isLoggedIn, async (req, res) => {
                     user.bookmarkCount--;
                 }
                 user.content.splice(i, 1);
+                mixpanel.track("Entity Deleted", {
+                    user_id: user.user_id,
+                    entity_type: user.content[i].type 
+                });
             }
         }
         try {
@@ -340,6 +352,10 @@ router.post("/update", isLoggedIn, async (req, res) => {
                         bookmarkCount: user.content[i].bookmarkCount
                     })
                 }
+                mixpanel.track("Entity Updated", {
+                    user_id: user.user_id,
+                    entity_type: user.content[i].type
+                });
             }
         }
         try {

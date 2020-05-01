@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const passport = require('passport');
 const router = require("../router/router.js");
 const mongoose = require("mongoose");
+const mixpanel = require('mixpanel-browser');
 require('../config/passport.config.js')(passport);
 
 mongoose.connect('mongodb://localhost/auth', {
@@ -15,6 +16,7 @@ mongoose.connect('mongodb://localhost/auth', {
     useUnifiedTopology: true
 });
 
+mixpanel.init("eb0a30592efe286cce4daa7c8b19bee4");
 app.use(bodyParser.urlencoded({
     extended: true
 }));
