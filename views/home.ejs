@@ -1,0 +1,130 @@
+<%- include("components/header-home") %>
+<body>
+    <div class="mission-statement home-text" style="margin-bottom: 3rem;">The best way to organize your digital life.</div>
+    <a href="/login" class="nav-button button-signup" style="margin-left: 55rem;">Sign Up</a>
+    <img class="preview-img home-img" src="/images/dashback-preview-1.png">
+    <div class="entities-example">
+        <div class="entities home-text">Create Folders & Bookmarks</div>
+        <ul class="modal-img-list">
+            <li>
+                <img class="home-img bookmark-modal" src="/images/create-bookmark-modal.png">
+            </li>
+            <li>
+                <img class="home-img folder-modal" src="/images/create-folder-modal.png">
+            </li>
+        </ul>
+    </div>
+    <div class="edit-example">
+        <ul class="edit-img-list">
+            <li>
+                <img class="edit-img edit-bookmark" src="/images/edit-bookmark.png">
+            </li>
+            <li>
+                <img class="edit-img edit-folder" src="/images/edit-folder.png">
+            </li>
+        </ul>
+        <div class="edits home-text">Edit your Folders & Bookmarks</div>
+    </div>
+    <div class="dev-note">
+        <div class="dev-title">What is Dash-Back?</div>
+        <p style="font-size: 1.5rem; line-height: 30px; width: 50%; margin-left: 30rem;">
+            Dash-Back is a digital bookmark tool designed for your modern digital life. Quickly add links from the web and preview them
+            from your dashboard or in a custom folder. It is an organized way to visualize your digital life, allowing you to find an important article or interesting
+            video online, then save it for later with Dash-Back.
+        </p>
+    </div>
+    <div class="home-text" style="margin-top: 10rem; margin-bottom: 2rem;">Start organizing your digital life today.</div>
+    <a href="/login" class="nav-button button-signup" style="margin-left: 55rem;">Sign Up</a>
+    <div style="text-align: center; padding: 4rem 0; margin-top: 5rem;">
+        <h1 class="title" style="font-weight: bold;">Learn more about us</h1>
+        <h1 class="linkTitle">Our Website:</h1>
+        <a href="http://hype-industries.com/">hype-industries.com</a>
+        <h1 class="linkTitle">Contact Us:</h1>
+        <p>support@hype-industries.com</p>
+    </div>
+</body>
+<!-- Appzi: Capture Insightful Feedback -->
+<script async src="https://w.appzi.io/bootstrap/bundle.js?token=LwYdk"></script>
+<!-- End Appzi -->
+<%- include("components/footer") %>
+
+<style>
+    .home-text{
+        text-align: center;
+        font-size: 4rem;
+        font-weight: bold;
+    }
+
+    .mission-statement{
+        width: 57rem;
+        margin-left: 30rem;
+        margin-top: 10rem;
+        padding-bottom: 3rem;
+    }
+
+    .home-img{
+        margin-top: 2rem;
+        border: 1px solid rgb(196, 196, 196);
+        border-radius: 1rem;
+    }
+
+    .preview-img{
+        width: 75%;
+        margin-left: 15rem;
+    }
+
+    .entities{
+        width: 45rem;
+        margin-left: 20rem;
+        margin-top: 10rem;
+        float: left;
+    }
+
+    .modal-img-list{
+        list-style-type: none;
+        float: right;
+        margin-right: 15rem;
+    }
+
+    .bookmark-modal{
+        margin-bottom: 1rem;
+    }
+
+    .entities-example{
+        margin-top: 7rem;
+    }
+
+    .edit-img-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start;
+        float: left;
+        margin-top: 25rem;
+    }
+
+    .edit-img{
+        border: 1px solid rgb(196, 196, 196);
+        border-radius: 2.5rem;
+    }
+
+    .edits{
+        margin-top: 25rem;
+        margin-right: 5rem;
+        width: 45rem;
+        float: right;
+    }
+
+    .edit-folder{
+        margin-left: 1rem;
+    }
+
+    .dev-note{
+        margin-top: 115rem;
+        text-align: center;
+    }
+
+    .dev-title{
+        font-size: 2rem;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>Dash-Back</h1>
+        <ul class="nav-items">
+            <li class="nav-item">
+                <a class="nav-button button-login" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-button button-signup" href="/login">Signup</a>
+            </li>
+        </ul>
+    </nav>
+    
+</body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
+
+    .navbar {
+        border-bottom: 1px solid rgb(201, 201, 201);
+    }
+
+    h1 {
+        font-family: 'Nunito', sans-serif;
+        padding-top: 1rem;
+        padding-bottom: .5rem;
+        color: black;
+        font-size: 2rem;
+    }
+
+    .nav-items {
+        float: right;
+        display: flex;
+        justify-content: flex-start;
+        list-style-type: none;
+    }
+
+    .nav-item {
+        padding-right: 1rem;
+        padding-top: 1rem
+    }
+    
+    .nav-button{
+        text-decoration: none;
+        border: 1px solid black;
+        border-radius: .25rem;
+        padding: 1.25rem;
+        padding-top: .35rem;
+        padding-bottom: .35rem;
+    }
+
+    .button-login{
+        color: black;
+        font-weight: bold;
+        background-color: white;
+        border-color: white;
+    }
+
+    .button-login:hover{
+        color: black;
+        text-decoration: none;
+        background-color: rgb(211, 211, 211);
+        border-color: rgb(211, 211, 211);
+        transition-duration: 0.2s;
+    }
+
+    .button-signup{
+        color:black;
+        font-weight: bold;
+        background-color: #ffeb3a;
+        border-color: #ffeb3a;
+    }
+
+    .button-signup:hover{
+        color: black;
+        text-decoration: none;
+        background-color: #d6c631;
+        border-color: #d6c631;
+        transition-duration: 0.2s;
+    }
+</style>

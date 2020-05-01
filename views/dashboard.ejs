@@ -1,0 +1,287 @@
+<%- include("components/header") %>
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 1rem;">
+                <div class="modal-header">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link add-modal-item active" id="nav-home-tab" data-toggle="tab" href="#nav-bookmark" role="tab"
+                                aria-controls="nav-home" aria-selected="true">Bookmark</a>
+                            <a class="nav-item nav-link add-modal-item" id="nav-profile-tab" data-toggle="tab" href="#nav-folder" role="tab"
+                                aria-controls="nav-profile" aria-selected="false">Folder</a>
+                        </div>
+                    </nav>
+                    <svg class="bi bi-bookmark-fill add-modal-img" width="3em" height="3em" viewBox="0 0 16 16" fill="#FFEB3A" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M3 3a2 2 0 012-2h6a2 2 0 012 2v12l-5-3-5 3V3z" clip-rule="evenodd" />
+                    </svg>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-bookmark" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <form action="/bookmarks?folderId=dashboard" method="POST" class="modal-form">
+                                <div class="field">
+                                    <label>Bookmark URL</label>
+                                    <div class="control">
+                                        <input type="text" name="url" size="56" class="modal-field">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Notes (optional)</label>
+                                    <div class="control">
+                                        <textarea type="text" name="notes" rows="5" cols="56" style="resize:none;" class="modal-field"></textarea>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <input type="submit" value="Add Bookmark" class="bookmark-add-btn yellow-btn">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav-folder" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <form action="/folder" method="POST" class="modal-form">
+                                <div class="field">
+                                    <label>Folder Name</label>
+                                    <div class="control">
+                                        <input type="text" name="name" size="56" class="modal-field">
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <input type="submit" value="Add Folder" class="folder-add-btn yellow-btn">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="folder-path">
+            <a href="/user/dashboard" style="color: black; padding-bottom: 1rem;">Dashboard</a>
+        </div>
+        <% if (message.length > 0) { %>
+            <div style="color: red;"><%= message %></div>
+        <% } %>
+        <% if(user.content.length == 0){ %>
+            <img class="no-entity" src="/images/add-entity.svg">
+            <br>
+            <p class="no-entity-text">Nothing yet. Press the "+" button to create your first bookmark or folder!</p>
+        <% }else{ %>
+            <% if(user.folderCount > 0){ %>
+                <label style="opacity: 75%; padding-top: 1rem;">Folders - <%= user.folderCount %></label>
+                <div class="card-columns folder-container">
+                    <% user.content.forEach(entity => { %>
+                        <% if(entity.type == "folder"){ %>
+                            <a href="/user/<%= entity.id %>">
+                                <div class="entity card folder" data-id="<%= entity.id %>">
+                                    <div class="body">
+                                        <svg class="bi bi-folder-fill folder-img" width="1.4em" height="1.4em" viewBox="0 0 16 16"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M9.828 3h3.982a2 2 0 011.992 2.181l-.637 7A2 2 0 0113.174 14H2.826a2 2 0 01-1.991-1.819l-.637-7a1.99 1.99 0 01.342-1.31L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 006.172 2H2.5a1 1 0 00-1 .981l.006.139z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <div class="folder-title"><%= entity.name %></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="bookmark-preview" id="<%= entity.id %>">
+                                <div class="bookmark-preview-header">
+                                    <div class="backdrop">
+                                        <img src="/images/ffeb3a.png">
+                                    </div>
+                                    <div class="logo">
+                                        <img class="logo-img" src="/images/folder-logo.png">
+                                    </div>
+                                    <div class="content">
+                                        <div class="title"><%= entity.name %></div>
+                                        <div class="website">Folder</div>
+                                    </div>
+                                </div>
+                                <form action="/update?id=<%= entity.id %>" method="POST" class="body">
+                                    <div class="field">
+                                        <div class="title-label">Name</div>
+                                        <div class="control">
+                                            <input class="title" type="text" name="name" value="<%= entity.name %>" size="52">
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
+                                </form>
+                                <div class="option-buttons" style="margin-top: 23rem;">
+                                    <a href="/user/<%= entity.id %>">
+                                        <button class="yellow-btn option-btn">Open</button>
+                                    </a>
+                                    <button class="yellow-btn option-btn">Back</button>
+                                    <form action="/delete?id=<%= entity.id %>" method="POST">
+                                        <button type="submit" class="btn btn-dark option-btn">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
+            <% } %>
+            <% if(user.bookmarkCount > 0){ %>
+                <label style="opacity: 75%; padding-top: 1rem;" class="bookmark-label">Bookmarks - <%=user.bookmarkCount %></label>
+                <div class="card-columns bookmark-container">
+                    <% user.content.forEach(entity => { %>
+                        <% if(entity.type == "bookmark" && entity.folderId == "dashboard"){ %>
+                            <% if(entity.content.imgUrl == ""){ %>
+                                <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
+                                    <div class="card basic entity" data-id="<%= entity.id %>">
+                                        <div class="body">
+                                            <div class="content">
+                                                <div class="card-title"><%= entity.content.title %></div>
+                                                <div class="card-website"><%= entity.content.url %></div>
+                                                <% if(entity.content.notes == ""){ %>
+                                                <div class="card-desc"><%= entity.content.desc %></div>
+                                                <% }else{ %>
+                                                <div class="card-desc"><%= entity.content.notes %></div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% }else{ %>
+                                <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
+                                    <div class="card basic w-image entity" data-id="<%= entity.id %>">
+                                        <div class="body">
+                                            <div class="image">
+                                                <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; margin-left: -1rem; width: 300px;">
+                                            </div>
+                                            <div class="content">
+                                                <div class="card-title"><%= entity.content.title %></div>
+                                                <div class="card-website"><%= entity.content.url %></div>
+                                                <% if(entity.content.notes == ""){ %>
+                                                <div class="card-desc"><%= entity.content.desc %></div>
+                                                <% }else{ %>
+                                                <div class="card-desc"><%= entity.content.notes %></div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <div class="bookmark-preview" id="<%= entity.id %>">
+                                <div class="bookmark-preview-header">
+                                    <div class="backdrop">
+                                        <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; width: 200px;"
+                                            onerror="this.onerror=null;this.src='/images/ffeb3a.png';">
+                                    </div>
+                                    <div class="logo">
+                                        <img class="logo-img" src="<%= entity.content.flavUrl %>"
+                                            onerror="this.onerror=null;this.src='/images/default-flav.png';">
+                                    </div>
+                                    <div class="content">
+                                        <div class="title"><%= entity.content.title %></div>
+                                        <div class="website"><%= entity.content.url %></div>
+                                        <div class="description"><%= entity.content.desc %></div>
+                                    </div>
+                                </div>
+                                <form action="/update?id=<%= entity.id %>" method="POST" class="body">
+                                    <div class="field">
+                                        <div class="title-label">Title</div>
+                                        <div class="control">
+                                            <input class="title" type="text" name="title" value="<%= entity.content.title %>" size="52">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="title-label">Description</div>
+                                        <div class="control">
+                                            <% if(entity.content.notes == ""){ %>
+                                            <textarea class="desc" name="notes" style="resize:none;" rows="4"
+                                                cols="52"><%= entity.content.desc %></textarea>
+                                            <% }else{ %>
+                                            <textarea class="desc" name="notes" style="resize:none;" rows="4"
+                                                cols="52"><%= entity.content.notes %></textarea>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="title-label">Folder</div>
+                                        <div class="control">
+                                            <select name="newFolder">
+                                                <option value="dashboard">Dashboard</option>
+                                                <% user.content.forEach(obj => { %>
+                                                    <% if(obj.type == "folder"){ %>
+                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
+                                                    <% } %>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
+                                </form>
+                                <div class="option-buttons">
+                                    <a href="<%= entity.content.url %>" target="_blank">
+                                        <button class="yellow-btn option-btn">Open</button>
+                                    </a>
+                                    <button class="yellow-btn option-btn">Back</button>
+                                    <form action="/delete?id=<%= entity.id %>" method="POST">
+                                        <button type="submit" class="btn btn-dark option-btn">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- custom context menu-->
+    <nav class="context-menu">
+        <ul class="context-menu-items">
+            <div class="context-menu-container">
+                <li class="context-menu-item context-menu-top">
+                    <svg class="bi bi-box-arrow-up-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M1.5 13A1.5 1.5 0 003 14.5h8a1.5 1.5 0 001.5-1.5V9a.5.5 0 00-1 0v4a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5V5a.5.5 0 01.5-.5h4a.5.5 0 000-1H3A1.5 1.5 0 001.5 5v8zm7-11a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V2.5H9a.5.5 0 01-.5-.5z"
+                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M14.354 1.646a.5.5 0 010 .708l-8 8a.5.5 0 01-.708-.708l8-8a.5.5 0 01.708 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <a class="context-menu-link" data-action="view">Edit</a>
+                </li>
+                <li class="context-menu-item context-menu-bottom">
+                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
+                        <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <a class="context-menu-link" data-action="delete">Delete</a>
+                </li>
+            </div>
+        </ul>
+        <form action="" method="POST" id="context-menu-action"></form>
+    </nav>
+    <!-- Button trigger modal -->
+    <button type="button" class="yellow-btn add-entity" data-toggle="modal" data-target="#add-modal"
+        style="width: 3rem; height: 3rem; border-radius: .5rem;">
+        <svg class="bi bi-plus add-entity-img" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                clip-rule="evenodd" />
+        </svg>
+    </button>
+    <div class="shade" id="shade"></div>
+</body>
+<!-- Appzi: Capture Insightful Feedback -->
+<script async src="https://w.appzi.io/bootstrap/bundle.js?token=LwYdk"></script>
+<!-- End Appzi -->
+<%- include("components/footer") %>
+<%- include("components/style") %>
+<%- include("components/context-menu-script") %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+

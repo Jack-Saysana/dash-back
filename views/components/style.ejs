@@ -1,0 +1,375 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
+
+    body {
+        font-family: 'Nunito', sans-serif;
+        background: #FCFCFC;
+        margin: 0px;
+    }
+
+    .folder-path{
+        padding-top: 1rem;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 1.5rem;
+        border-bottom: 1px solid rgb(201, 201, 201);
+    }
+
+    .modal-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .add-modal-item {
+        color: gray;
+    }
+
+    .add-modal-item:hover {
+        color: rgb(94, 94, 94);
+    }
+
+    .add-modal-img {
+        margin-top: -1.2rem;
+        margin-left: 12rem;
+    }
+
+    .modal-field {
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: .25rem;
+    }
+
+    .yellow-btn {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        border-style: solid;
+        border-radius: .25rem;
+        color: black;
+        background-color: #FFEB3A;
+        border-color: #FFEB3A;
+    }
+
+    .yellow-btn:hover {
+        color: black;
+        background-color: rgb(197, 183, 52);
+        border-color: rgb(197, 183, 52);
+        transition-duration: 0.2s;
+    }
+
+    .add-entity {
+        position: fixed;
+        bottom: 5rem;
+        right: 1.5rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .add-entity-img {
+        margin-right: .1rem
+    }
+
+    .option-btn {
+        height: 2.4rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-right: 1rem;
+    }
+
+    .bookmark-add-btn {
+        margin-top: 1rem;
+        float: right;
+    }
+
+    .folder-add-btn {
+        margin-top: 1rem;
+        float: right;
+    }
+
+    .no-entity {
+        width:15rem;
+        display: block;
+        margin: auto;
+        margin-top: 15%;
+    }
+
+    .no-entity-text {
+        width: 30rem;
+        text-align: center;
+        margin: auto;
+        font-weight: bold;
+    }
+
+    /* Bookmark Container */
+    .card-columns {
+        column-count: 1;
+        width: calc(100% - 2rem);
+    }
+
+    .card-columns card {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    @media only screen and (min-width: 350px) {
+        .card-columns {
+            column-count: 2;
+        }
+    }
+
+    @media only screen and (min-width: 750px) {
+        .card-columns {
+            column-count: 3;
+        }
+    }
+
+    @media only screen and (min-width: 1000px) {
+        .card-columns {
+            column-count: 4;
+        }
+    }
+
+    /* Bookmark Cards */
+    .card {
+        color: black;
+        display: inline-block;
+        transition: all .4s ease;
+        border-radius: 1.5rem;
+        background: white;
+        margin: 0.5rem 1rem;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 2px 1px 15px 5px rgba(166, 166, 166, .05);
+        cursor: pointer;
+    }
+
+    .folder {
+        max-width: 15rem;
+        border-radius: .5rem;
+    }
+
+    .folder-img {
+        float: left;
+        margin-left: 1rem;
+        margin-right: .5rem;
+        opacity: 50%;
+    }
+
+    .folder-title {
+        font-weight: bold;
+        margin: .5rem;
+        text-align: left;
+    }
+
+    .card:hover {
+        box-shadow: 2px 1px 25px 5px rgba(166, 166, 166, .2);
+        transform: scale(1.005);
+    }
+
+    .card.basic .body .content {
+        padding: 1.5rem;
+        position: relative;
+        background: white;
+        border-radius: 2rem 0 0 0;
+        color: black;
+    }
+
+    .card .body .content {
+        padding: 2rem;
+        position: relative;
+        background: white;
+        border-radius: 2rem 0 0 0;
+        color: black;
+    }
+
+    .card.basic.w-image .body .content {
+        margin-top: -2rem;
+        box-shadow: -3px 0px 20px 5px rgba(0,0,0,0.1);
+    }
+
+    .card.basic .body .content .card-title {
+        font-size: 1rem;
+    }
+
+    .card.basic .body .content .card-website {
+        color: grey;
+        font-weight: 200;
+        font-size: 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card.basic .body .content .card-desc {
+        font-size: 0.8rem;
+        font-weight: 300;
+    }
+
+    .card.basic.w-image .body .image {
+        width: 30rem;
+        height: 10rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Bookmark preview stylings */
+    .bookmark-preview {
+        display: none;
+        position: fixed;
+        top: 6rem;
+        right: 0;
+        text-align: center;
+        height: calc(100vh - 6rem);
+        width: 25%;
+        background: white;
+        box-shadow: -3px -5px 20px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border-radius: 2rem;
+        z-index: 99;
+    }
+
+    @media only screen and (min-width: 750px) {
+        .bookmark-preview {
+            min-width: 400px;
+            max-width: 500px;
+            width: 50%;
+            border-radius: 2rem 0 0 3rem;
+        }
+    }
+
+    .bookmark-preview--active {
+        display: block;
+        float: right;
+    }
+
+    .bookmark-preview .bookmark-preview-header .backdrop {
+        height: 20vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bookmark-preview .bookmark-preview-header .backdrop img {
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    .bookmark-preview .bookmark-preview-header .logo {
+        height: 5rem;
+        width: 5rem;
+        border-radius: 1rem;
+        position: absolute;
+        background-color: white;
+        margin-left: 13rem;
+        margin-top: -10%;
+        box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .bookmark-preview .bookmark-preview-header .logo .logo-img {
+        width: 100%;
+        height: 100%;
+        margin: auto;
+    }
+
+    .bookmark-preview .bookmark-preview-header .content .title {
+        height: 2rem;
+        overflow: hidden;
+        font-weight: bold;
+        margin-top: 3rem;
+        font-size: 1.5rem;
+    }
+
+    .bookmark-preview .bookmark-preview-header .content .website {
+        font-size: 1rem;
+        color: gray;
+        padding: 1rem;
+    }
+
+    .bookmark-preview .bookmark-preview-header .content .description {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .bookmark-preview .body .field {
+        text-align: left;
+        padding-left: 2rem;
+        padding-top: 1rem;
+    }
+
+    .bookmark-preview .body .field .title-label {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .bookmark-preview .body .field .control .title {
+        padding-left: .5rem;
+        border-radius: .25rem;
+        border-width: 1px;
+        border-color: rgb(230, 230, 230);
+        border-style: solid;
+    }
+
+    .bookmark-preview .body .field .control .desc {
+        padding-left: .5rem;
+        border-radius: .25rem;
+        border-width: 1px;
+        border-color: rgb(230, 230, 230);
+        border-style: solid;
+    }
+
+    .bookmark-preview .body .save-btn {
+        float: left;
+        margin-top: 1rem;
+        margin-left: 2rem;
+        margin-right: 1rem;
+    }
+
+    .bookmark-preview .option-buttons {
+        margin-left: 2rem;
+        margin-top: 5rem;
+        display: flex;
+        justify-self: flex-start;
+    }
+
+    .shade {
+        background: rgb(0, 0, 0, 0.5);
+        position: fixed;
+        left: 0px;
+        width: 100%;
+        top: 0px;
+        height: 100vh;
+        display: none;
+    }
+
+    /* Custom Context menu stylings */
+    .context-menu {
+        display: none;
+        position: absolute;
+        z-index: 100;
+    }
+
+    .context-menu-items {
+        list-style-type: none;
+    }
+
+    .context-menu-container {
+        border: 1px solid rgb(224, 224, 224);
+        border-radius: .25rem;
+    }
+
+    .context-menu-item {
+        background-color: white;
+        border: 1px solid rgb(224, 224, 224, 0.5);
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+    }
+
+    .context-menu-item:hover {
+        background-color: rgb(192, 192, 192);
+    }
+
+    .context-menu--active {
+        display: block;
+    }
+</style>
