@@ -1,16 +1,69 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const util = require("util");
-const url = require("url");
-const querystring = require("querystring");
+const express        = require( "express" );
+const router         = express.Router();
+const passport       = require( "passport" );
+const request        = require( "request" );
+const util           = require( "util" );
+const url            = require( "url" );
+const querystring    = require("querystring");
 const { v4: uuidv4 } = require('uuid');
+
+
 const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
 const getFavicons = require('get-website-favicon');
 require("dotenv").config();
 const mixpanel = require('mixpanel-browser');
 mixpanel.init("eb0a30592efe286cce4daa7c8b19bee4");
+
+// FIXME not working, we get the token, but auth0 says bad audience when we use it
+// get token from Auth0
+// tokenRequest();
+// var   auth0Token     = false;
+// setInterval( tokenRequest, 86000 );
+// function tokenRequest() {
+//   request( {
+//     method: "POST",
+//     // url: "https://" + process.env.AUTH0_DOMAIN + "/oauth/token",
+//     url: 'https://hype-industries.auth0.com/oauth/token',
+//     headers: { 'content-type': 'application/json' },
+//     body: '{"client_id":"ITmVWQDgNpXxc2KQTv4319U04NFcSjIa","client_secret":"nxEYkamLN6owmngu-VsauyFLE3Opzg8lFLw2IVTqrwL7yN0ABjIXqUAxf0V1rmPs","audience":"http://localhost:3000/","grant_type":"client_credentials"}'
+//     // headers: { "content-type" : "application/x-www-form-urlencoded" },
+//     // form: {
+//     //   grant_type: 'client_credentials',
+//     //   client_id: process.env.AUTH0_API_CLIENT_ID,
+//     //   client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+//     //   audience: process.env.AUTH0_API_AUDIENCE
+//     // }
+//   }, function (error, response, body) {
+//     if (error) throw new Error(error);
+//     console.log( body );
+//     auth0Token = JSON.parse( body ).access_token;
+//   });
+// }
+
+// Used to return user information for the chrome plugin
+// router.get( "/api/user", ( req, res ) => {
+//   if ( req.isAuthenticated() ) {
+//     request( {
+//       method: "GET",
+//       url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/users/" + req.user.user_id,
+//       headers: { authorization: "Bearer " + auth0Token }
+//     }, ( error, response, body ) => {
+//       body = JSON.parse( body );
+//       console.log(body);
+//       if ( error ) res.json( { active: false } );
+//       delete body._json;
+//       delete body._raw;
+//       delete body.id;
+//       delete body.user_id;
+//       delete body.identities;
+//       body.active = true;
+//       res.json( body );
+//     });
+//   } else {
+//     res.json( { active: false } );
+//   }
+// });
 
 //Login Handling
 router.get(
@@ -167,7 +220,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
                     id: user.content[i].id,
                     name: user.content[i].name,
                     type: user.content[i].type,
-                    bookmarkCount: user.content[i].bookmarkCount + 1 
+                    bookmarkCount: user.content[i].bookmarkCount + 1
                 });
             }
         }
@@ -260,7 +313,7 @@ router.post("/delete", isLoggedIn, async (req, res) => {
                 user.content.splice(i, 1);
                 mixpanel.track("Entity Deleted", {
                     user_id: user.user_id,
-                    entity_type: user.content[i].type 
+                    entity_type: user.content[i].type
                 });
             }
         }
@@ -375,6 +428,10 @@ router.post("/update", isLoggedIn, async (req, res) => {
         res.redirect("/bookmarks");
     }
 });
+
+
+
+
 
 function isLoggedIn(req, res, next){
     // if user is authenticated in the session, carry on
