@@ -19,7 +19,7 @@
 
 <body>
     <nav class="navbar">
-        <h1>Dash-Back</h1>
+        <h1>DashBack</h1>
         <ul class="nav-items">
             <li class="nav-item">
                 <a class="nav-button button-login" href="/login">Login</a>
@@ -29,14 +29,20 @@
             </li>
         </ul>
     </nav>
-    
+
 </body>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
 
     .navbar {
-        border-bottom: 1px solid rgb(201, 201, 201);
+      border-bottom: 1px solid rgb(201, 201, 201);
+      padding: 0 3rem;
+      position: fixed;
+      background: white;
+      top: 0;
+      width: 100%;
+      z-index: 999;
     }
 
     h1 {
@@ -44,7 +50,8 @@
         padding-top: 1rem;
         padding-bottom: .5rem;
         color: black;
-        font-size: 2rem;
+        font-weight: bold;
+        font-size: 1.2rem;
     }
 
     .nav-items {
@@ -58,7 +65,7 @@
         padding-right: 1rem;
         padding-top: 1rem
     }
-    
+
     .nav-button{
         text-decoration: none;
         border: 1px solid black;

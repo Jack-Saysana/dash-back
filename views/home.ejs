@@ -1,130 +1,289 @@
-<%- include("components/header-home") %>
-<body>
-    <div class="mission-statement home-text" style="margin-bottom: 3rem;">The best way to organize your digital life.</div>
-    <a href="/login" class="nav-button button-signup" style="margin-left: 55rem;">Sign Up</a>
-    <img class="preview-img home-img" src="/images/dashback-preview-1.png">
-    <div class="entities-example">
-        <div class="entities home-text">Create Folders & Bookmarks</div>
-        <ul class="modal-img-list">
-            <li>
-                <img class="home-img bookmark-modal" src="/images/create-bookmark-modal.png">
-            </li>
-            <li>
-                <img class="home-img folder-modal" src="/images/create-folder-modal.png">
-            </li>
-        </ul>
-    </div>
-    <div class="edit-example">
-        <ul class="edit-img-list">
-            <li>
-                <img class="edit-img edit-bookmark" src="/images/edit-bookmark.png">
-            </li>
-            <li>
-                <img class="edit-img edit-folder" src="/images/edit-folder.png">
-            </li>
-        </ul>
-        <div class="edits home-text">Edit your Folders & Bookmarks</div>
-    </div>
-    <div class="dev-note">
-        <div class="dev-title">What is Dash-Back?</div>
-        <p style="font-size: 1.5rem; line-height: 30px; width: 50%; margin-left: 30rem;">
-            Dash-Back is a digital bookmark tool designed for your modern digital life. Quickly add links from the web and preview them
-            from your dashboard or in a custom folder. It is an organized way to visualize your digital life, allowing you to find an important article or interesting
-            video online, then save it for later with Dash-Back.
-        </p>
-    </div>
-    <div class="home-text" style="margin-top: 10rem; margin-bottom: 2rem;">Start organizing your digital life today.</div>
-    <a href="/login" class="nav-button button-signup" style="margin-left: 55rem;">Sign Up</a>
-    <div style="text-align: center; padding: 4rem 0; margin-top: 5rem;">
-        <h1 class="title" style="font-weight: bold;">Learn more about us</h1>
-        <h1 class="linkTitle">Our Website:</h1>
-        <a href="http://hype-industries.com/">hype-industries.com</a>
-        <h1 class="linkTitle">Contact Us:</h1>
-        <p>support@hype-industries.com</p>
-    </div>
-</body>
-<!-- Appzi: Capture Insightful Feedback -->
-<script async src="https://w.appzi.io/bootstrap/bundle.js?token=LwYdk"></script>
-<!-- End Appzi -->
-<%- include("components/footer") %>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" >
+		<title>DashBack - Visual Bookmark Manager</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="/images/dashback-favicon.png" type="image/x-icon">
+		<link href="https://fonts.googleapis.com/css?family=Nunito:100,200,300,400,600,500,700,800,900|Open+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+		<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<link href="/landing/style.css" rel="stylesheet" />
+		<link href="/landing/custom.css" rel="stylesheet" />
+	</head>
+	<body>
+		<!-- Navigation 1 -->
+		<nav class="pt-30 pb-30 bg-light text-center navigation_1">
+			<div class="container px-xl-0">
+				<div class="row justify-content-center align-items-center f-16">
+					<div class="mb-20 mb-lg-0 col-lg-3 text-lg-left">
+						<a href="#" class="link color-main f-24 bold">DashBack</a>
+					</div>
+					<div class="col-lg-6">
+						<!-- <a href="#" class="link mx-15 color-main ">Home</a> -->
+						<!-- <a href="#" class="link mx-15 color-main ">Features</a> -->
+						<!-- <a href="#" class="link mx-15 color-main ">Blog</a> -->
+						<!-- <a href="#" class="link mx-15 color-main ">Shop</a> -->
+					</div>
+					<div class="mt-20 mt-lg-0 col-lg-3 d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center">
+						<a href="#" class="link mr-20 color-main ">Login</a>
+						<a href="#" class="btn mr-20 sm action-2 f-16">Create Account</a>
+					</div>
+				</div>
+			</div>
+		</nav>
 
-<style>
-    .home-text{
-        text-align: center;
-        font-size: 4rem;
-        font-weight: bold;
-    }
+		<!-- Application 1 -->
+		<section class="pt-100 color-black text-center bg-light">
+			<div class="container px-xl-0">
+				<div class="row justify-content-center">
+					<div class="col-lg-10">
+						<!-- DashBack Image -->
+						<h2 class="mt-30">All your important links. <br>One place.</h2>
+					</div>
+					<div class="col-sm-11 col-md-9 col-lg-7 col-xl-5 mb-30">
+						<div class="mt-15 f-22 medium op-7 text-adaptive">
+							<div>
+								The Best Visual Bookmark Manager.
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<img src="/landing/images/DashBack-preview-dashboard-1.png" srcset="i/application_1_img@2x.png 2x" alt="" class="mt-60 img-fluid image-pop hero" />
+					</div>
+				</div>
+			</div>
+		</section>
 
-    .mission-statement{
-        width: 57rem;
-        margin-left: 30rem;
-        margin-top: 10rem;
-        padding-bottom: 3rem;
-    }
+		<!-- Content 2 -->
+		<section class="pt-105 pb-95 bg-dark text-light content_2">
+			<div class="container px-xl-0 text-center">
+				<div class="row justify-content-center">
+					<div class="col-xl-8 col-lg-10">
+						<h3>Encounter. Save. DashBack.</h3>
+					</div>
+					<div class="col-xl-7 col-lg-9 col-md-10">
+						<div class="mt-35 f-18 medium color-heading op-7 text-adaptive">
+							<div>
+								We travel the Internet everyday, encountering amazing things.
+								Things to read, things to treat our selves, restaurants to
+								eat at, and amazing projects. But we can't remember all these things.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    .home-img{
-        margin-top: 2rem;
-        border: 1px solid rgb(196, 196, 196);
-        border-radius: 1rem;
-    }
+		<!-- Application 2 -->
+		<style>
+			@media only screen and (min-width: 1200px) {
+			  .application_2 .application_2_left_img {
+					margin-right: 5rem;
+					width: calc( 100% - 5rem );
+			  }
+			}
+		</style>
+		<section class="pt-65 pb-65 bg-light application_2">
+			<div class="container px-xl-0">
+				<div class="row justify-content-center justify-content-md-between align-items-center">
+					<div class="col-md-7 col-xl-6 order-md-12 mb-50">
+						<h3 class="col-lg-11 color-main">Features Making you Productive</h3>
+						<div class="mt-25 col-lg-9 color-heading f-18 text-adaptive">Explore the Internet with confidence. Quickly add a website from the Chrome Extension and keep your bookmarks organize with notes and folders.
+						</div>
+						<div class="mt-50 row">
+							<div class="col-6 col-lg-4 pb-25">
+								<img src="/landing/images/icons/folder.png" srcset="i/application_2_img_2@2x.png 2x" alt="" class="pl-15 feature-icon" />
+								<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">Unlimited Folders</div>
+							</div>
+							<div class="col-6 col-lg-4 pb-25">
+								<img src="/landing/images/icons/note.png" srcset="i/application_2_img_3@2x.png 2x" alt="" class="pl-15 feature-icon" />
+								<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">Notes on Bookmarks</div>
+							</div>
+							<div class="col-6 col-lg-4 pb-25">
+								<img src="/landing/images/icons/chrome.png" srcset="i/application_2_img_4@2x.png 2x" alt="" class="pl-15 feature-icon" />
+								<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">chrome extension</div>
+							</div>
+						</div>
+					</div>
+					<div class="mb-15 mb-md-0 col-12 col-md-5 col-xl-6 d-flex justify-content-center order-md-1">
+						<img src="/landing/images/card-demo.png" srcset="i/application_2_img_1@2x.png 2x" alt="" class="img-fluid application_2_left_img" />
+					</div>
+				</div>
+			</div>
+		</section>
 
-    .preview-img{
-        width: 75%;
-        margin-left: 15rem;
-    }
 
-    .entities{
-        width: 45rem;
-        margin-left: 20rem;
-        margin-top: 10rem;
-        float: left;
-    }
+		<!-- Feature 2 -->
+		<section class="pt-105 pb-45 bg-light text-center feature_2">
+			<div class="container px-xl-0">
+				<div class="row justify-content-center">
+					<div class="col-xl-8 col-lg-10">
+						<h2 class="small">The Best Visual Bookmarks</h2>
+						<div class="mt-35 mb-65 f-22 color-heading text-adaptive description">
+							The most important part of the Startup Framework are the samples or
+							Bootstrap themes and templates. The samples consist of a set of few
+							pages you can use «as is» or add new blocks from UI Kit.
+						</div>
+					</div>
+					<div class="col-xl-10">
+						<div class="row justify-content-center">
+							<div class="mb-50 col-md-4 col-sm-8">
+								<div class="mb-20 f-18 medium title">For Freelancers and <br>Agencies</div>
+								<div class="color-heading text-adaptive">
+									Pay once and it&apos;s yours forever. Use <br>
+									it to build as many sites as you <br>
+									need; long form, presentations, <br>
+									splash sites, and&nbsp;more.
+								</div>
+								<a href="#" class="mt-30 btn sm w-40 border-transparent-main">
+									<i class="fas fa-angle-right"></i>
+								</a>
+							</div>
+							<div class="mb-50 col-md-4 col-sm-8">
+								<div class="mb-20 f-18 medium title">Cmd + C / Cmd + V</div>
+								<div class="color-heading text-adaptive">
+									Edit content in a comfortable <br>
+									manner. It&apos;s as simple as copy <br>
+									and&nbsp;paste.
+								</div>
+								<a href="#" class="mt-30 btn sm w-40 border-transparent-main">
+									<i class="fas fa-angle-right"></i>
+								</a>
+							</div>
+							<div class="mb-50 col-md-4 col-sm-8">
+								<div class="mb-20 f-18 medium title">Full Control</div>
+								<div class="color-heading text-adaptive">
+									Easily change and tweak your <br>
+									content when you need to, <br>
+									however you want. No more third <br>
+									party vendor&nbsp;lock-in.
+								</div>
+								<a href="#" class="mt-30 btn sm w-40 border-transparent-main">
+									<i class="fas fa-angle-right"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    .modal-img-list{
-        list-style-type: none;
-        float: right;
-        margin-right: 15rem;
-    }
 
-    .bookmark-modal{
-        margin-bottom: 1rem;
-    }
+		<!-- Type Zone -->
+		<div class="bg-dark text-light" id=typePage>
+			<div class="container display4">
+				<h4>More than just Bookmarks.</h4>
+				<span class="type-zone">
+					<span class="type-place"></span>
+				</span>
+			</div>
+		</div>
 
-    .entities-example{
-        margin-top: 7rem;
-    }
 
-    .edit-img-list {
-        list-style-type: none;
-        display: flex;
-        justify-content: flex-start;
-        float: left;
-        margin-top: 25rem;
-    }
+		<!-- Call to action 1 -->
+		<section class="pt-110 pb-95 bg-light text-center call_to_action_1">
+			<div class="container px-xl-0">
+				<div class="row justify-content-center">
+					<div class="col-xl-8 col-lg-10">
+						<h3>Explore with DashBack</h3>
+					</div>
+					<div class="col-xl-7 col-lg-9 col-md-10">
+						<div class="mt-20 mb-60 f-22 color-heading text-adaptive description">
+							Feel confidence browsing the web. Find something amazing, just save it for later. We will keep it all tidy for you.
+						</div>
+						<div>
+							<a href="#" class="btn mb-30 lg action-1">Create Free Account</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    .edit-img{
-        border: 1px solid rgb(196, 196, 196);
-        border-radius: 2.5rem;
-    }
+		<!-- Footer 1 -->
+		<footer class="pt-75 pb-25 bg-light text-center footer_1">
+			<div class="container px-xl-0">
+				<div class="row justify-content-between align-items-center lh-40 links">
+					<div class="col-lg-4 col-sm-6 text-sm-right text-lg-left order-1 order-lg-0">
+						<a href="#" class="link mr-15 color-main">About</a>
+						<a href="#" class="link mx-15 color-main">Policy</a>
+						<a href="#" class="link mx-15 color-main">Terms</a>
+					</div>
+					<div class="mb-10 mb-lg-0 col-lg-auto order-0">
+						<a href="#" class="link logo color-main">DashBack</a>
+					</div>
+					<div class="col-lg-4 col-sm-6 text-sm-left text-lg-right order-2 order-lg-0">
+						<a href="#" class="link mr-15 color-main">Contacts</a>
+						<a href="#" class="mx-15 link color-main">
+							<i class="fab fa-twitter"></i>
+						</a>
+						<a href="#" class="mx-15 link color-main">
+							<i class="fab fa-facebook-square"></i>
+						</a>
+						<a href="#" class="ml-15 link color-main">
+							<i class="fab fa-google-plus-g"></i>
+						</a>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="mt-20 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+						<div class="color-heading text-adaptive">
+							Copyright © 2020 HYPE Industries. All rights reserved.
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
 
-    .edits{
-        margin-top: 25rem;
-        margin-right: 5rem;
-        width: 45rem;
-        float: right;
-    }
 
-    .edit-folder{
-        margin-left: 1rem;
-    }
 
-    .dev-note{
-        margin-top: 115rem;
-        text-align: center;
-    }
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDP6Ex5S03nvKZJZSvGXsEAi3X_tFkua4U"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+		<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+		<script src="/landing/jquery.maskedinput.min.js"></script>
+		<script src="/landing/script.js"></script>
 
-    .dev-title{
-        font-size: 2rem;
-        font-weight: bold;
-    }
-</style>
+		<script>
+		var shuffle = function (array) {
+
+			var currentIndex = array.length;
+			var temporaryValue, randomIndex;
+
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+
+			return array;
+
+		};
+
+		var options = {
+		  strings: shuffle( ['<b>Remember that</b> website for your school project?', "<b>Remember that</b> form for sick days?", "<b>Remember that</b> news article you wanted to read?", "<b>Remember that</b> birthday present idea for Dad?", "<b>Remember that</b> project idea you found earlier?", '<b>Remember that</b> image you wanted for the site?', "<b>Remember that</b> Youtube video?", "<b>Remember that</b> thing on Amazon you wanted?", "<b>Remember that</b> research paper you saw?", "<b>Remember that</b> restaurant you wanted to visit?", "<b>Remember that</b> story you wanted to read?", "<b>Remember that</b> email you needed?", "<b>Remember that</b> website you need for research?", "<b>Remember that</b> cool project you wanted to make?", "<b>Remember that</b> code you wanted for a new project?"  ] ),
+		  typeSpeed: 80,
+		  backSpeed: 80,
+		  backDelay: 1000,
+		  smartBackspace: true,
+		  loop: true,
+		  loopCount: Infinity,
+		};
+
+		var typed = new Typed('.type-place', options);
+		</script>
+
+	</body>
+</html>

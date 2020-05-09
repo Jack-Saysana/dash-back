@@ -1,0 +1,547 @@
+<%- include("components/header-home") %>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+
+<style>
+  .container.hero {
+    text-align: center;
+  }
+
+  .container.hero .title-text {
+    margin:14rem 0 0 0;
+    font-size: 1.5rem;
+    font-weight: 100;
+  }
+
+  .container.hero .message-text {
+    margin: 1rem 0 4rem 0;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .container.hero .preview-img {
+    display: block;
+    margin-top: 8rem;
+    width: 100%;
+    box-shadow: 0px 50px 100px 10px rgba(0,0,0,0.1);
+  }
+
+
+  .display1 {
+    margin: 15rem auto;
+    margin-bottom: 5rem;
+  }
+
+  .display1 .content-left {
+    padding-top: 5rem;
+  }
+
+  .display1 .content-right img {
+    width: 100%;
+    padding: 0 0 0 5rem;
+  }
+
+
+  #MoreFeatures {
+    margin: 15rem auto;
+  }
+
+  #MoreFeatures img {
+    border-radius: 1rem;
+    box-shadow: 0px 5px 30px 1px rgba(0,0,0,0.2);
+  }
+
+  #userStories {
+    margin: 10rem auto 5rem auto;
+  }
+
+  #userStories .story-title {
+    font-size: 2rem;
+    font-weight: 100;
+  }
+
+  #userStories .story-title b {
+    font-weight: bold;
+  }
+
+  #userStories .story {
+    margin-bottom: 2rem;
+  }
+
+  #userStories img {
+    width: calc( 100% - 10rem );
+    margin: 0 0 2rem 5rem;
+  }
+
+  .display4 {
+    padding: 20rem 0;
+    color: white;
+  }
+
+  .display4 .type-zone {
+    color: white;
+    font-size: 3rem;
+    font-weight: 100;
+  }
+
+  .display4 .type-zone b {
+    font-weight: 600;
+    color: #FFEB3A;
+  }
+
+  .display5 {
+    padding: 15rem 0;
+  }
+
+  .display5 h1 {
+    font-size: 3rem;
+    font-weight: 100;
+  }
+
+
+
+  .button {
+    padding: 0.6rem 2.5rem;
+    border-radius: 5rem;
+  }
+
+  .sidebyside {
+    display: flex;
+  }
+
+  .sidebyside .content-left {
+    width: 50%;
+  }
+
+  .sidebyside .content-right {
+    width: 50%;
+  }
+
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background: #FBD94A;
+    color: black;
+  }
+
+  .nav-pills a {
+    color: black;
+  }
+
+
+  img.image-pop {
+    border-radius: 1rem;
+    box-shadow: 0px 5px 30px 1px rgba(0,0,0,0.2);
+  }
+
+
+
+  #block-saveLater.container {
+    margin: 15rem auto;
+  }
+
+  #block-saveLater.container .text {
+    margin: 3rem 0 0 0;
+  }
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="container hero">
+    <div class="title-text">The best visual Bookmark Manager.</div>
+    <div class="message-text">All your important links.<br>One place.</div>
+    <a href="/login" class="nav-button button-signup button">Sign Up</a>
+    <img class="preview-img home-img" src="/images/dashback-preview-1.png">
+  </div>
+
+
+  <div class="container" id="block-saveLater">
+    <div class="row">
+      <div class="col-6 col-xs-12 text">
+        <h2>Save for Later.</h2>
+        <p>
+          We travel the Internet everyday, encountering amazing things.
+          Things to read, things to treat our selves, restaurants to
+          eat at, and amazing projects we will some day get around to. But, we can't remember
+          all these things. That's where DashBack comes in. You can save all these
+          amazing things you find on the Internet to DashBack and come back to get
+          later.
+        </p>
+      </div>
+      <div class="col-6 col-xs-12 text-center">
+        <img class="image-pop" src="/images/chrome-extension.png">
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container sidebyside display1">
+    <div class="content-left">
+      <div class="dev-title">Save for Later.</div>
+      <p>
+        We travel the Internet everyday, encountering amazing things.
+        Things to read, things to treat our selves, restaurants to
+        eat at, and amazing projects we will some day get around to. But, we can't remember
+        all these things. That's where DashBack comes in. You can save all these
+        amazing things you find on the Internet to DashBack and come back to get
+        later.
+      </p>
+    </div>
+    <div class="content-right">
+      <!-- Add Gif -->
+      <img src="/images/card-demo.png">
+    </div>
+  </div>
+
+  <div class="container sidebyside" id="MoreFeatures">
+    <div class="content-left">
+      <img src="/images/chrome-extension.png">
+    </div>
+    <div class="content-right">
+      <div class="dev-title">Top Notch Features.</div>
+      <h4>Chrome extension</h4>
+      <p>
+        We travel the Internet everyday, encountering amazing things.
+        Things to read, things to treat our selves, restaurants to
+        eat at, and amazing projects we will some day get around to. But, we can't remember
+        all these things. That's where DashBack comes in. You can save all these
+        amazing things you find on the Internet to DashBack and come back to get
+        later.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- <div style="background: #EFEFEF" id="steps">
+    <div class="container sidebyside" id=step1>
+      <div class="content-left">
+        <div class="sub-title">Step 1</div>
+        <div class="dev-title">Find Amazing Things.</div>
+        <p>
+          When your browsing the web, if your lucky, you might just come acrost
+          something amazing. Something Special. Something just for you and something
+          you don't want to forget.
+        </p>
+      </div>
+      <div class="content-right">
+        <img src="/images/card-demo.png">
+      </div>
+    </div>
+    <div class="container sidebyside" id=step2>
+      <div class="content-left">
+        <img src="/images/card-demo.png">
+      </div>
+      <div class="content-right">
+        <div class="sub-title">Step 2</div>
+        <div class="dev-title">Save it to DashBack.</div>
+        <p>
+          When your browsing the web, if your lucky, you might just come acrost
+          something amazing. Something Special. Something just for you and something
+          you don't want to forget.
+        </p>
+      </div>
+    </div>
+    <div class="container sidebyside" id=step3>
+      <div class="content-left">
+        <div class="sub-title">Step 3</div>
+        <div class="dev-title">Save it to DashBack.</div>
+        <p>
+          When your browsing the web, if your lucky, you might just come acrost
+          something amazing. Something Special. Something just for you and something
+          you don't want to forget.
+        </p>
+
+      </div>
+      <div class="content-right">
+        <img src="/images/card-demo.png">
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container" id=userStories>
+    <div class="tab-content" id="userTabsContent">
+      <div class="tab-pane fade show active" id="everyone" role="tabpanel" aria-labelledby="everyone-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Everyone</b> uses DashBack?</div>
+            <div class="story">
+              DashBack is designed for everyone and anyone. It's sole purpose is
+              to help you better categorize everything you find on the web. That
+              could be anything from a funny tweet to all the important links
+              for your next big trip. Maybe you get an important email, save it
+              to DashBack. Is that a present idea for Mom? Save it to DashBack.
+              Any important link you could imagine can be saved to DashBack, and
+              you can organize all your info with in your folders.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/everyone.svg">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="readers" role="tabpanel" aria-labelledby="readers-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Readers</b> uses DashBack?</div>
+            <div class="story">
+              DashBack is designed for everyone and anyone. It's sole purpose is
+              to help you better categorize everything you find on the web. That
+              could be anything from a funny tweet to all the important links
+              for your next big trip. Maybe you get an important email, save it
+              to DashBack. Is that a present idea for Mom? Save it to DashBack.
+              Any important link you could imagine can be saved to DashBack, and
+              you can organize all your info with in your folders.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/readers.svg">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Students</b> uses DashBack?</div>
+            <div class="story">
+              No longer do you have have to paste your links into a Word Document
+              for your next writing assignment. As you browse for the perfect
+              resources for that assignment, simply save them for later. Just
+              quickly save them your research folder on DashBack with a single
+              click, using the DashBack Chrome plugin. Additionally, you can
+              share your DashBack folder with your group members so they can
+              easly add to the folder too. Dont't forget why you saved that
+              resource, just add a quick note to your self and your group members.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/students.svg">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="businesses" role="tabpanel" aria-labelledby="businesses-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Businesses</b> uses DashBack?</div>
+            <div class="story">
+              DashBack is designed for everyone and anyone. It's sole purpose is
+              to help you better categorize everything you find on the web. That
+              could be anything from a funny tweet to all the important links
+              for your next big trip. Maybe you get an important email, save it
+              to DashBack. Is that a present idea for Mom? Save it to DashBack.
+              Any important link you could imagine can be saved to DashBack, and
+              you can organize all your info with in your folders.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/businesses.svg">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="developers" role="tabpanel" aria-labelledby="developers-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Developers</b> uses DashBack?</div>
+            <div class="story">
+              DashBack is designed for everyone and anyone. It's sole purpose is
+              to help you better categorize everything you find on the web. That
+              could be anything from a funny tweet to all the important links
+              for your next big trip. Maybe you get an important email, save it
+              to DashBack. Is that a present idea for Mom? Save it to DashBack.
+              Any important link you could imagine can be saved to DashBack, and
+              you can organize all your info with in your folders.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/developers.svg">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="creatives" role="tabpanel" aria-labelledby="creatives-tab">
+        <div class="sidebyside">
+          <div class="content-left">
+            <div class="story-title">How <b>Creatives</b> uses DashBack?</div>
+            <div class="story">
+              DashBack is designed for everyone and anyone. It's sole purpose is
+              to help you better categorize everything you find on the web. That
+              could be anything from a funny tweet to all the important links
+              for your next big trip. Maybe you get an important email, save it
+              to DashBack. Is that a present idea for Mom? Save it to DashBack.
+              Any important link you could imagine can be saved to DashBack, and
+              you can organize all your info with in your folders.
+            </div>
+          </div>
+          <div class="content-right">
+            <img src="/images/user-stories/creatives.svg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-pills nav-justified" id="userTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="everyone-tab" data-toggle="tab" href="#everyone" role="tab" aria-controls="everyone" aria-selected="true">Everyone</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="readers-tab" data-toggle="tab" href="#readers" role="tab" aria-controls="readers" aria-selected="true">Readers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="businesses-tab" data-toggle="tab" href="#businesses" role="tab" aria-controls="businesses" aria-selected="false">Businesses</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="developers-tab" data-toggle="tab" href="#developers" role="tab" aria-controls="developers" aria-selected="false">Developers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="creatives-tab" data-toggle="tab" href="#creatives" role="tab" aria-controls="creatives" aria-selected="false">Creatives</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div style="background: black;">
+    <div class="container display4">
+      <h4>More than just Bookmarks.</h4>
+      <span class="type-zone">
+        <span class="type-place"></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="container display5">
+    <h4>We've got you covered.</h4>
+    <h1>Just save it to <b>DashBack</b>.</h1>
+    <br>
+    <a href="/login" class="nav-button button-signup button">Start Bookmarking</a>
+  </div>
+
+
+  <!-- <div class="container sidebyside display2">
+    <div class="content-left">
+      <img src="/images/create-bookmark-modal.png">
+    </div>
+    <div class="content-right">
+      <div class="dev-title">Add Notes to your Bookmarks.</div>
+    </div>
+  </div> -->
+
+
+    <div style="text-align: center; padding: 4rem 0; margin-top: 5rem; background: #EFEFEF">
+        <h1 class="title" style="font-weight: bold;">Learn more about us</h1>
+        <h1 class="linkTitle">Our Website:</h1>
+        <a href="http://hype-industries.com/">hype-industries.com</a>
+        <h1 class="linkTitle">Contact Us:</h1>
+        <p>support@hype-industries.com</p>
+    </div>
+</body>
+<!-- Appzi: Capture Insightful Feedback -->
+<script async src="https://w.appzi.io/bootstrap/bundle.js?token=LwYdk"></script>
+<!-- End Appzi -->
+<%- include("components/footer") %>
+
+<style>
+
+    .home-img{
+        margin-top: 2rem;
+        border: 1px solid rgb(196, 196, 196);
+        border-radius: 1rem;
+    }
+
+
+
+    .entities{
+        width: 45rem;
+        margin-left: 20rem;
+        margin-top: 10rem;
+        float: left;
+    }
+
+    .modal-img-list{
+        list-style-type: none;
+        float: right;
+        margin-right: 15rem;
+    }
+
+    .bookmark-modal{
+        margin-bottom: 1rem;
+    }
+
+    .entities-example{
+        margin-top: 7rem;
+    }
+
+    .edit-img-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start;
+        float: left;
+        margin-top: 25rem;
+    }
+
+
+
+    .edits{
+        margin-top: 25rem;
+        margin-right: 5rem;
+        width: 45rem;
+        float: right;
+    }
+
+    .edit-folder{
+        margin-left: 1rem;
+    }
+
+    .dev-note{
+        margin-top: 115rem;
+        text-align: center;
+    }
+
+    .dev-title{
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .sub-title{
+        font-size: 1.2rem;
+        font-weight: 100;
+    }
+</style>
+
+<script>
+var shuffle = function (array) {
+
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
+
+var options = {
+  strings: shuffle( ['<b>Remember that</b> website for your school project?', "<b>Remember that</b> form for sick days?", "<b>Remember that</b> news article you wanted to read?", "<b>Remember that</b> birthday present idea for Dad?", "<b>Remember that</b> project idea you found earlier?", '<b>Remember that</b> image you wanted for the site?', "<b>Remember that</b> Youtube video you wanted to watch?", "<b>Remember that</b> thing on Amazon you wanted?", "<b>Remember that</b> research paper you saw?", "<b>Remember that</b> restaurant you wanted to visit?", "<b>Remember that</b> story you wanted to read?", "<b>Remember that</b> email you needed?"  ] ),
+  typeSpeed: 80,
+  backSpeed: 80,
+  backDelay: 1000,
+  smartBackspace: true,
+  loop: true,
+  loopCount: Infinity,
+};
+
+var typed = new Typed('.type-place', options);
+</script>

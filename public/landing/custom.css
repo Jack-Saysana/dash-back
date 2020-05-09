@@ -1,0 +1,51 @@
+.image-pop {
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: 0px 5px 50px 1px rgba(0,0,0,0.15);
+  transition: all 0.5s;
+}
+
+.image-pop:hover {
+  box-shadow: 0px 5px 50px 1px rgba(0,0,0,0.2);
+  transform: scale(1.03);
+}
+
+img.hero {
+  transition: all 0.5s;
+}
+
+img.hero:hover {
+  transform: scale(1.02) translateY( -1% );
+}
+
+.feature-icon {
+  width: 40%;
+}
+
+.application_2 {
+  margin: 5rem 0;
+}
+
+.btn:hover {
+  box-shadow: 0px 8px 75px 0px rgba(0,0,0,0.15)
+}
+
+
+#typePage {
+  padding: 20rem 0;
+}
+
+#typePage h4 {
+  margin: 2rem 0;
+}
+
+
+#typePage .type-zone {
+  color: white;
+  font-size: 3rem;
+  font-weight: 100;
+}
+
+#typePage .type-zone b {
+  font-weight: 600;
+  color: #FFEB3A;
+}
