@@ -70,8 +70,16 @@ router.get(
     "/login",
     passport.authenticate("auth0", {
         scope: "openid email profile"
-    }),
-    (req, res) => {
+    }), (req, res) => {
+        res.redirect("/bookmarks");
+    }
+);
+
+// Create Account FIXME not taking to signup page
+router.get( "/signup",
+    passport.authenticate("auth0", {
+        initialScreen: "SignUp"
+    }), (req, res) => {
         res.redirect("/bookmarks");
     }
 );
@@ -122,7 +130,7 @@ router.get("/logout", (req, res) => {
 
 //Homepage
 router.get("/", isNotLoggedIn, (req, res) => {
-    res.render("home");
+    res.render( "landing" );
 });
 
 //Bookmarks

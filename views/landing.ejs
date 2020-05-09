@@ -30,8 +30,8 @@
 						<!-- <a href="#" class="link mx-15 color-main ">Shop</a> -->
 					</div>
 					<div class="mt-20 mt-lg-0 col-lg-3 d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center">
-						<a href="#" class="link mr-20 color-main ">Login</a>
-						<a href="#" class="btn mr-20 sm action-2 f-16">Create Account</a>
+						<a href="/login" class="link mr-20 color-main ">Login</a>
+						<a href="/signup" class="btn mr-20 sm action-2 f-16">Create Account</a>
 					</div>
 				</div>
 			</div>
@@ -197,7 +197,7 @@
 							Feel confidence browsing the web. Find something amazing, just save it for later. We will keep it all tidy for you.
 						</div>
 						<div>
-							<a href="#" class="btn mb-30 lg action-1">Create Free Account</a>
+							<a href="/signup" class="btn mb-30 lg action-1">Create Free Account</a>
 						</div>
 					</div>
 				</div>
@@ -240,7 +240,6 @@
 		</footer>
 
 
-
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDP6Ex5S03nvKZJZSvGXsEAi3X_tFkua4U"></script>
@@ -249,41 +248,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
 		<script src="/landing/jquery.maskedinput.min.js"></script>
 		<script src="/landing/script.js"></script>
-
-		<script>
-		var shuffle = function (array) {
-
-			var currentIndex = array.length;
-			var temporaryValue, randomIndex;
-
-			// While there remain elements to shuffle...
-			while (0 !== currentIndex) {
-				// Pick a remaining element...
-				randomIndex = Math.floor(Math.random() * currentIndex);
-				currentIndex -= 1;
-
-				// And swap it with the current element.
-				temporaryValue = array[currentIndex];
-				array[currentIndex] = array[randomIndex];
-				array[randomIndex] = temporaryValue;
-			}
-
-			return array;
-
-		};
-
-		var options = {
-		  strings: shuffle( ['<b>Remember that</b> website for your school project?', "<b>Remember that</b> form for sick days?", "<b>Remember that</b> news article you wanted to read?", "<b>Remember that</b> birthday present idea for Dad?", "<b>Remember that</b> project idea you found earlier?", '<b>Remember that</b> image you wanted for the site?', "<b>Remember that</b> Youtube video?", "<b>Remember that</b> thing on Amazon you wanted?", "<b>Remember that</b> research paper you saw?", "<b>Remember that</b> restaurant you wanted to visit?", "<b>Remember that</b> story you wanted to read?", "<b>Remember that</b> email you needed?", "<b>Remember that</b> website you need for research?", "<b>Remember that</b> cool project you wanted to make?", "<b>Remember that</b> code you wanted for a new project?"  ] ),
-		  typeSpeed: 80,
-		  backSpeed: 80,
-		  backDelay: 1000,
-		  smartBackspace: true,
-		  loop: true,
-		  loopCount: Infinity,
-		};
-
-		var typed = new Typed('.type-place', options);
-		</script>
+		<script src="/landing/custom.js"></script>
 
 	</body>
 </html>
