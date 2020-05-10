@@ -6,7 +6,7 @@ const util           = require( "util" );
 const url            = require( "url" );
 const querystring    = require("querystring");
 const { v4: uuidv4 } = require('uuid');
-
+const apiv1Router    = require( "./router-api-v1.js" );
 
 const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
@@ -15,55 +15,10 @@ require("dotenv").config();
 const mixpanel = require('mixpanel-browser');
 mixpanel.init("eb0a30592efe286cce4daa7c8b19bee4");
 
-// FIXME not working, we get the token, but auth0 says bad audience when we use it
-// get token from Auth0
-// tokenRequest();
-// var   auth0Token     = false;
-// setInterval( tokenRequest, 86000 );
-// function tokenRequest() {
-//   request( {
-//     method: "POST",
-//     // url: "https://" + process.env.AUTH0_DOMAIN + "/oauth/token",
-//     url: 'https://hype-industries.auth0.com/oauth/token',
-//     headers: { 'content-type': 'application/json' },
-//     body: '{"client_id":"ITmVWQDgNpXxc2KQTv4319U04NFcSjIa","client_secret":"nxEYkamLN6owmngu-VsauyFLE3Opzg8lFLw2IVTqrwL7yN0ABjIXqUAxf0V1rmPs","audience":"http://localhost:3000/","grant_type":"client_credentials"}'
-//     // headers: { "content-type" : "application/x-www-form-urlencoded" },
-//     // form: {
-//     //   grant_type: 'client_credentials',
-//     //   client_id: process.env.AUTH0_API_CLIENT_ID,
-//     //   client_secret: process.env.AUTH0_API_CLIENT_SECRET,
-//     //   audience: process.env.AUTH0_API_AUDIENCE
-//     // }
-//   }, function (error, response, body) {
-//     if (error) throw new Error(error);
-//     console.log( body );
-//     auth0Token = JSON.parse( body ).access_token;
-//   });
-// }
 
-// Used to return user information for the chrome plugin
-// router.get( "/api/user", ( req, res ) => {
-//   if ( req.isAuthenticated() ) {
-//     request( {
-//       method: "GET",
-//       url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/users/" + req.user.user_id,
-//       headers: { authorization: "Bearer " + auth0Token }
-//     }, ( error, response, body ) => {
-//       body = JSON.parse( body );
-//       console.log(body);
-//       if ( error ) res.json( { active: false } );
-//       delete body._json;
-//       delete body._raw;
-//       delete body.id;
-//       delete body.user_id;
-//       delete body.identities;
-//       body.active = true;
-//       res.json( body );
-//     });
-//   } else {
-//     res.json( { active: false } );
-//   }
-// });
+
+// load API v1
+router.use( "/api/v1/", apiv1Router );
 
 //Login Handling
 router.get(
