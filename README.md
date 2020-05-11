@@ -12,6 +12,7 @@ SESSION_SECRET="session code"
 ```
 
 ## Fixme
+- better error page for login callback
 
 ## Features
 Everything will slowly get moved to the API. Then instead of rendering on server side we can lazy load on client side. Have "single" page web app.

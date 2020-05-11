@@ -1,7 +1,7 @@
 # DashBack API v1
+If the call has a method scope, like `read:user` then it means it can be accessed from a API token (in the future). If the method is labeled as private it can only be accessed from the client when they are logged in.
 
-
-## User Information
+## User Information (read:user)
 ![Get Command](https://img.shields.io/badge/Get-/api/v1/user-grey?style=flat-square&labelColor=44C7F4)<br>
 Grabbing user information, can be a good tool to check basic user information. If you are access from a client (web app), and they are not login you will get a response `active: false`. This indicates the user isn't login. All basic information for a users account is transmitted from this API Call. In the future this API call will also return information for settings, and premium account information.
 

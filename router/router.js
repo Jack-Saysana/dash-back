@@ -7,6 +7,8 @@ const url            = require( "url" );
 const querystring    = require("querystring");
 const { v4: uuidv4 } = require('uuid');
 const apiv1Router    = require( "./router-api-v1.js" );
+const APIv1          = require( "./api-v1.js" );
+
 
 const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
@@ -41,6 +43,10 @@ router.get( "/signup",
 
 
 router.get("/callback", (req, res, next) => {
+  // deals with if email isn't verified yet
+  if ( req.query && req.query.error ) {
+    res.send( req.query.error_description );
+  } else {
     passport.authenticate("auth0", (err, user, info) => {
         if (err) {
             return next(err);
@@ -57,6 +63,7 @@ router.get("/callback", (req, res, next) => {
             res.redirect(returnTo || "/bookmarks");
         });
     })(req, res, next);
+  }
 });
 
 router.get("/logout", (req, res) => {
@@ -401,6 +408,27 @@ router.get( "/view/image/:image/:source?/:title?", ( req, res ) => {
   res.render( "image-view", { image: ( req.params && req.params.image ) ? decodeURIComponent( req.params.image ) : false, source: ( req.params && req.params.source ) ? decodeURIComponent( req.params.source ) : false, title: ( req.params && req.params.title ) ? decodeURIComponent( req.params.title ) : false });
 });
 
+/* ==============  USER PROFILE  ============= (/profile)
+  This will display all the information that is
+  grabbed from the APIv1.
+
+  FIXME - This will later be updated so instead
+  of rendering server side the client will make
+  the api request and render on that side.
+
+  REQUIRES
+    - user to be logined
+    - user method (APIv1 Local) => to get user info
+*/
+router.get( "/profile", isLoggedIn, ( req, res ) => {
+  APIv1.user( req.user.user_id ).then( userData => {
+    delete userData.identities;
+    res.render( "profile", { user: userData } );
+  }).catch( error => {
+    // redirect to error page later
+    res.json( error );
+  });
+});
 
 
 function isLoggedIn(req, res, next){
