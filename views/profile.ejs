@@ -1,0 +1,110 @@
+<head>
+  <title>DashBack - Profile</title>
+  <link rel="icon" href="/images/dashback-favicon.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/balloon-css/1.0.4/balloon.min.css" integrity="sha256-pfno2mJJPc18/fMxcMqCbNmQfBYs/FSn8ltQ/Ct3n5E=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css" integrity="sha256-2bAj1LMT7CXUYUwuEnqqooPb1W0Sw0uKMsqNH0HwMa4=" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container" style="margin-top: 10rem;">
+    <h1>My Profile</h1>
+    <a href="/user/dashboard">Back to DashBoard</a>
+    <br>
+    <br>
+    <br>
+    <div class="d-flex flex-row">
+      <div>
+        <img style="height: 5.25rem; border-radius: 5.25rem;" src="<%= user.picture %>">
+      </div>
+      <div style="padding: 0.5rem 2rem;">
+        <h3><%= user.name %></h3>
+        <p><%= user.email %> <% if ( user.email_verified == true ) { %><span aria-label="Your email has been verified">(Verified)</span><% } else { %><span aria-label="your email address has still not been verified">(Awaiting)</span><% } %></p>
+        <br>
+        <p class="m-0" style="color: grey; font-weight: 100; font-size: 0.8rem;">Signed Up</p>
+        <p class="m-0"><%= user.created_at %></p>
+        <br>
+        <p class="m-0" style="color: grey; font-weight: 100; font-size: 0.8rem;">Last Login</p>
+        <p class="m-0"><%= user.last_login %> (<%= user.last_ip %>)</p>
+        <br>
+        <p class="m-0" style="color: grey; font-weight: 100; font-size: 0.8rem;">Updated Profile</p>
+        <p class="m-0"><%= user.updated_at %></p>
+        <br>
+        <!-- <p>To change your email or name please email us. To change your password request a password reset from the signin page.</p> -->
+        <button type="button" class="btn btn-dark">Change Name</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeEmail">Update Email</button> <button type="button" class="btn btn-dark">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Email Update -->
+  <div class="modal fade" id="changeEmail" tabindex="-1" role="dialog" aria-labelledby="changeEmail" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You will have to confirm your email</p>
+          <form action="/api/v1/user/email/" method="POST" id="formUpdateEmail">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Email:</label>
+              <input type="email" class="form-control" name="email">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="formUpdateEmail" value="Submit">Send Confirmation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js" integrity="sha256-7OUNnq6tbF4510dkZHCRccvQfRlV3lPpBTJEljINxao=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+/* Submit email */
+$( "#formUpdateEmail" ).submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "/api/v1/user/email/",
+        type: "post",
+        data: $( "#formUpdateEmail" ).serialize(),
+        success: function(){
+          window.location = "/profile?message=email&email=" + $("input[name=email]").val();;
+        }
+    });
+});
+
+/* Onload message */
+$( document ).ready(function() {
+  params = new URLSearchParams( window.location.search );
+  if ( params.has( "message" ) && params.get( "message" ) == "email" ) {
+    if ( params.has( "email" ) ) {
+      Swal.fire(
+        "Email Updated",
+        "We have sent an email to <b>" + params.get( "email" ) + "</b> with a confirmation link to your email address. Please allow 5-10 minutes for this message to arrive.",
+        "success"
+      )
+    } else {
+      Swal.fire(
+        "Email Updated",
+        "We have sent an email with a confirmation link to your email address. Please allow 5-10 minutes for this message to arrive.",
+        "success"
+      )
+    }
+  }
+});
+</script>

@@ -38,6 +38,62 @@ class apiv1 {
       });
     });
   }
+
+
+  /* ==============  CHANGE EMAIL  ============= (PUBLIC)
+    This will contact Auth0 update the email and
+    also make the email non-verified. After that
+    is successfull will request an email to be sent
+    to confirm the email.
+
+    STATUS CODE:
+      400 - Email Not valid format
+      202 - successfull
+
+
+    PARAMATERS
+      - _id (STRING) => Auth0 user id
+      - newEmail (STRING) => set new email
+
+    REQUIRES
+      - auth0Token => token to access Auth0
+      - process.env.AUTH0_DOMAIN => auth0 domain
+
+ */
+  static changeEmail( _id, newEmail ) {
+    return new Promise( ( resolve, reject ) => {
+      if ( !validateEmail( newEmail ) ) {
+        reject( { status: 400, message: "Error: Not a valid email format." } );
+      }
+      request( {
+        method: "PATCH",
+        url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/users/" + _id,
+        headers: { authorization: "Bearer " + auth0Token },
+        body: { email: newEmail, email_verified: false },
+        json: true
+      }, ( error, response, data ) => {
+        if ( error ) reject( { status: 400, message: "Error: " + error } );
+        if ( !data.statusCode && !data.message ) {
+          request( {
+            method: "POST",
+            url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/jobs/verification-email",
+            headers: { authorization: "Bearer " + auth0Token },
+            body: { user_id: _id },
+            json: true
+          }, ( error, response, data ) => {
+            if ( error ) reject( { status: 400, message: "Error: " + error } );
+            if ( !data.statusCode && !data.message ) {
+              resolve( { status: 202, message: "Success: Email successfully update. Awaiting verification." } );
+            } else {
+              reject( { status: data.statusCode, message: "Error: " + data.message } )
+            }
+          });
+        } else {
+          reject( { status: data.statusCode, message: "Error: " + data.message } )
+        }
+      });
+    });
+  }
 }
 
 // Request API Token for Machine to Machine API
@@ -58,5 +114,10 @@ function tokenRequest() {
   });
 }
 
+// validates if email address is propper format
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 module.exports = apiv1;
