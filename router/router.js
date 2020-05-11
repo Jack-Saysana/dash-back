@@ -39,6 +39,7 @@ router.get( "/signup",
     }
 );
 
+
 router.get("/callback", (req, res, next) => {
     passport.authenticate("auth0", (err, user, info) => {
         if (err) {
@@ -393,6 +394,12 @@ router.post("/update", isLoggedIn, async (req, res) => {
 });
 
 
+// image viewer
+// source optional
+// title optional
+router.get( "/view/image/:image/:source?/:title?", ( req, res ) => {
+  res.render( "image-view", { image: ( req.params && req.params.image ) ? decodeURIComponent( req.params.image ) : false, source: ( req.params && req.params.source ) ? decodeURIComponent( req.params.source ) : false, title: ( req.params && req.params.title ) ? decodeURIComponent( req.params.title ) : false });
+});
 
 
 

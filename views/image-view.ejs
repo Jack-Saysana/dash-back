@@ -1,0 +1,90 @@
+<style>
+  body {
+    margin: 0;
+    overflow: none;
+  }
+
+  .image {
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0.5rem;
+  }
+
+  .background {
+    position: fixed;
+    left: -25vw;
+    top: -25vh;
+    width: 150vw;
+    height: 150vh;
+    filter: blur(50px) brightness( 0.5 );
+    z-index: -1;
+  }
+
+  .display {
+    display: flex;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .source {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    display: inline-block;
+    padding: 0.8rem 2.5rem;
+    text-align: center;
+    background: #FBD94A;
+    color: black;
+    font-weight: 500;
+    font-size: 1.1rem;
+    border-radius: 5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s;
+    box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.1);
+  }
+
+  .source:hover {
+    box-shadow: 1px 1px 30px 0px rgba(0,0,0,0,1.5);
+    transform: scale( 1.03 );
+  }
+
+  .source {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .source p {
+    color: black !important;
+    text-decoration: none;
+    margin: 0;
+  }
+</style>
+
+<head>
+  <% if ( title ) { %>
+    <title>Image from <%= title %> - DashBack</title>
+    <meta name="description" content="Image saved from <%= title %>">
+  <% } else { %>
+    <title>Image - DashBack</title>
+    <meta name="description" content="DashBack Image">
+  <% } %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/images/dashback-favicon.png" type="image/x-icon">
+</head>
+
+<body>
+  <div class="background" style="background:url(<%=image%>);background-size:cover;"></div>
+  <div class="display">
+    <img class="image" src="<%=image%>">
+  </div>
+  <% if ( source ) { %>
+    <a href="<%= source %>" target="_blank">
+    <div class="source">
+      <p>View Source</p>
+    </div>
+    </a>
+  <% } %>
+</body>
