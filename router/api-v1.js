@@ -18,6 +18,10 @@ class apiv1 {
     Will return a promise with user information,
     based on the the Auth0 user ID.
 
+    STATUS CODE:
+      200 - successfull
+      502 - Auth0 Error
+
     PARAMATERS
       - _id (STRING) => Auth0 user id
 
@@ -32,15 +36,21 @@ class apiv1 {
         method: "GET",
         url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/users/" + _id,
         headers: { authorization: "Bearer " + auth0Token }
-      }, ( error, response, user ) => {
-        if ( error ) reject( { error: error } );
-        resolve( JSON.parse( user ) );
+      }, ( error, response, data ) => {
+        if ( error ) reject( { status: 502, message: "Error: " + error } );
+        data = JSON.parse( data )
+        if ( !data.statusCode && !data.message ) {
+          data.status = 200;
+          resolve( data );
+        } else {
+          reject( { status: 502, message: "Error: Auth0 (" + data.statusCode + ") " + data.message } );
+        }
       });
     });
   }
 
 
-  /* ==============  CHANGE EMAIL  ============= (PUBLIC)
+  /* ==============  CHANGE EMAIL  ============= (PRIVATE)
     This will contact Auth0 update the email and
     also make the email non-verified. After that
     is successfull will request an email to be sent
@@ -49,7 +59,7 @@ class apiv1 {
     STATUS CODE:
       400 - Email Not valid format
       202 - successfull
-
+      502 - Auth0 Error
 
     PARAMATERS
       - _id (STRING) => Auth0 user id
@@ -72,7 +82,7 @@ class apiv1 {
         body: { email: newEmail, email_verified: false },
         json: true
       }, ( error, response, data ) => {
-        if ( error ) reject( { status: 400, message: "Error: " + error } );
+        if ( error ) reject( { status: 502, message: "Error: " + error } );
         if ( !data.statusCode && !data.message ) {
           request( {
             method: "POST",
@@ -81,20 +91,21 @@ class apiv1 {
             body: { user_id: _id },
             json: true
           }, ( error, response, data ) => {
-            if ( error ) reject( { status: 400, message: "Error: " + error } );
+            if ( error ) reject( { status: 502, message: "Error: " + error } );
             if ( !data.statusCode && !data.message ) {
               resolve( { status: 202, message: "Success: Email successfully update. Awaiting verification." } );
             } else {
-              reject( { status: data.statusCode, message: "Error: " + data.message } )
+              reject( { status: 502, message: "Error: Auth0 (" + data.statusCode + ") " + data.message } );
             }
           });
         } else {
-          reject( { status: data.statusCode, message: "Error: " + data.message } )
+          reject( { status: 502, message: "Error: Auth0 (" + data.statusCode + ") " + data.message } );
         }
       });
     });
   }
 }
+
 
 // Request API Token for Machine to Machine API
 function tokenRequest() {
@@ -113,6 +124,7 @@ function tokenRequest() {
     auth0Token = JSON.parse( body ).access_token;
   });
 }
+
 
 // validates if email address is propper format
 function validateEmail(email) {

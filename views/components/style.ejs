@@ -59,7 +59,7 @@
 
     .add-entity {
         position: fixed;
-        bottom: 5rem;
+        bottom: 1.5rem;
         right: 1.5rem;
         display: flex;
         justify-content: flex-end;
@@ -215,16 +215,16 @@
     .bookmark-preview {
         display: none;
         position: fixed;
-        top: 6rem;
+        top: 0;
         right: 0;
         text-align: center;
-        height: calc(100vh - 6rem);
-        width: 25%;
+        height: 100vh;
+        width: 100%;
         background: white;
         box-shadow: -3px -5px 20px 5px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        border-radius: 2rem;
-        z-index: 99;
+        border-radius: 0;
+        z-index: 1000;
     }
 
     @media only screen and (min-width: 750px) {
@@ -232,9 +232,11 @@
             min-width: 400px;
             max-width: 500px;
             width: 50%;
-            border-radius: 2rem 0 0 3rem;
+            border-radius: 2rem 0 0 2rem;
         }
     }
+
+
 
     .bookmark-preview--active {
         display: block;
@@ -338,6 +340,7 @@
         top: 0px;
         height: 100vh;
         display: none;
+        z-index: 999;
     }
 
     /* Custom Context menu stylings */

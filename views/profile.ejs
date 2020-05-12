@@ -20,7 +20,7 @@
       </div>
       <div style="padding: 0.5rem 2rem;">
         <h3><%= user.name %></h3>
-        <p><%= user.email %> <% if ( user.email_verified == true ) { %><span aria-label="Your email has been verified">(Verified)</span><% } else { %><span aria-label="your email address has still not been verified">(Awaiting)</span><% } %></p>
+        <p><%= user.email %> <% if ( user.email_verified == true ) { %><span aria-label="Your email has been verified" data-balloon-pos="up">(Verified)</span><% } else { %><span aria-label="your email address has still not been verified" data-balloon-pos="up">(Awaiting)</span><% } %></p>
         <br>
         <p class="m-0" style="color: grey; font-weight: 100; font-size: 0.8rem;">Signed Up</p>
         <p class="m-0"><%= user.created_at %></p>
@@ -49,7 +49,6 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>You will have to confirm your email</p>
           <form action="/api/v1/user/email/" method="POST" id="formUpdateEmail">
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Email:</label>
@@ -59,7 +58,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" form="formUpdateEmail" value="Submit">Send Confirmation</button>
+          <button type="submit" class="btn btn-primary" form="formUpdateEmail" value="Submit">Send Verification</button>
         </div>
       </div>
     </div>
@@ -81,9 +80,10 @@ $( "#formUpdateEmail" ).submit(function(e){
     $.ajax({
         url: "/api/v1/user/email/",
         type: "post",
-        data: $( "#formUpdateEmail" ).serialize(),
+        dataType: "json",
+        data: { email: $( "input[name=email]" ).val() },
         success: function(){
-          window.location = "/profile?message=email&email=" + $("input[name=email]").val();;
+          window.location = "/profile?message=email&email=" + $( "input[name=email]" ).val() + "&t=" + new Date().getTime();
         }
     });
 });
@@ -91,7 +91,7 @@ $( "#formUpdateEmail" ).submit(function(e){
 /* Onload message */
 $( document ).ready(function() {
   params = new URLSearchParams( window.location.search );
-  if ( params.has( "message" ) && params.get( "message" ) == "email" ) {
+  if ( params.has( "message" ) && params.get( "message" ) == "email" && params.has( "t" ) && new Date().getTime() - parseInt( params.get( "t" ) ) < 5000 ) { // only show if time since request is less than 5s
     if ( params.has( "email" ) ) {
       Swal.fire(
         "Email Updated",
