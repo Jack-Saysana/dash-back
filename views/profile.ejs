@@ -20,7 +20,7 @@
       </div>
       <div style="padding: 0.5rem 2rem;">
         <h3><%= user.name %></h3>
-        <p><%= user.email %> <% if ( user.email_verified == true ) { %><span aria-label="Your email has been verified" data-balloon-pos="up">(Verified)</span><% } else { %><span aria-label="your email address has still not been verified" data-balloon-pos="up">(Awaiting)</span><% } %></p>
+        <p><%= user.email %> <% if ( user.email_verified == true ) { %><span aria-label="Your email has been verified" data-balloon-pos="up">(Verified)</span><% } else { %><span aria-label="Still waiting for you to verify your email. Check your email or contact support." data-balloon-pos="up">(Pending)</span><% } %></p>
         <br>
         <p class="m-0" style="color: grey; font-weight: 100; font-size: 0.8rem;">Signed Up</p>
         <p class="m-0"><%= user.created_at %></p>
@@ -32,7 +32,7 @@
         <p class="m-0"><%= user.updated_at %></p>
         <br>
         <!-- <p>To change your email or name please email us. To change your password request a password reset from the signin page.</p> -->
-        <button type="button" class="btn btn-dark">Change Name</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeEmail">Update Email</button> <button type="button" class="btn btn-dark">Update Password</button>
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeName">Change Name</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeEmail">Update Email</button> <button type="button" class="btn btn-dark">Update Password</button>
       </div>
     </div>
   </div>
@@ -64,6 +64,32 @@
     </div>
   </div>
 
+  <!-- Name Update -->
+  <div class="modal fade" id="changeName" tabindex="-1" role="dialog" aria-labelledby="changeName" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/api/v1/user/name/" method="POST" id="formUpdateName">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" name="name" value="<%= user.name %>">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="formUpdateName" value="Submit">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 
@@ -82,11 +108,57 @@ $( "#formUpdateEmail" ).submit(function(e){
         type: "post",
         dataType: "json",
         data: { email: $( "input[name=email]" ).val() },
-        success: function(){
-          window.location = "/profile?message=email&email=" + $( "input[name=email]" ).val() + "&t=" + new Date().getTime();
+        success: function( response ){
+          if ( response.status == 202 ) {
+            window.location = "/profile?message=email&email=" + $( "input[name=email]" ).val() + "&t=" + new Date().getTime();
+          } else {
+            Swal.fire(
+              "Unexpected Error",
+              "Unable to update Email. Please try again later, or contact support.",
+              "error"
+            )
+          }
+        },
+        fail: function(xhr, textStatus, errorThrown){
+          Swal.fire(
+            "Unexpected Error",
+            "Unable to update Email. Please try again later, or contact support.",
+            "error"
+          )
         }
     });
 });
+
+
+/* Submit Name */
+$( "#formUpdateName" ).submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "/api/v1/user/name/",
+        type: "post",
+        dataType: "json",
+        data: { name: $( "input[name=name]" ).val() },
+        success: function(response){
+          if ( response.status == 200 ) {
+            window.location = "/profile?message=name&name=" + $( "input[name=name]" ).val() + "&t=" + new Date().getTime();
+          } else {
+            Swal.fire(
+              "Unexpected Error",
+              "Unable to update Name. Please try again later, or contact support.",
+              "error"
+            )
+          }
+        },
+        fail: function(xhr, textStatus, errorThrown){
+          Swal.fire(
+            "Unexpected Error",
+            "Unable to update Name. Please try again later, or contact support.",
+            "error"
+          )
+        }
+    });
+});
+
 
 /* Onload message */
 $( document ).ready(function() {
@@ -102,6 +174,23 @@ $( document ).ready(function() {
       Swal.fire(
         "Email Updated",
         "We have sent an email with a confirmation link to your email address. Please allow 5-10 minutes for this message to arrive.",
+        "success"
+      )
+    }
+  }
+
+  // If name updated
+  if ( params.has( "message" ) && params.get( "message" ) == "name" && params.has( "t" ) && new Date().getTime() - parseInt( params.get( "t" ) ) < 5000 ) { // only show if time since request is less than 5s
+    if ( params.has( "name" ) ) {
+      Swal.fire(
+        "Hi, " + params.get( "name" ),
+        "Your name has been updated.",
+        "success"
+      )
+    } else {
+      Swal.fire(
+        "Your name has been updated.",
+        "Your name has been updated.",
         "success"
       )
     }

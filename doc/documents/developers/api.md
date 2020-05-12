@@ -49,9 +49,9 @@ Please note general [status codes](/documents/developers/api?id=status-codes).
 ```json
 {
   "user_id": "auth0|507f1f77bcf86cd799439020",
-  "email": "john.doe@gmail.com",
+  "email": "johnsmith@gallifrey.com",
   "email_verified": false,
-  "username": "johndoe",
+  "username": "johnsmith",
   "phone_number": "+199999999999999",
   "phone_verified": false,
   "created_at": "",
@@ -80,7 +80,7 @@ Please note general [status codes](/documents/developers/api?id=status-codes).
 ## Update Email
 ![POST /api/v1/user/email](https://img.shields.io/badge/POST-/api/v1/user/email-grey?style=flat-square&labelColor=01B48F)
 ![scope private](https://img.shields.io/badge/Scope-private-grey?style=flat-square&labelColor=yellow)<br>
-Updating the email is only a private call, and therefor can only be done from the client. Updating the email will change the forwarding email address of the user. However, this is email is not yet verified. A verification email will be sent to the users new email. The user will not be able to access the account until this email has been verified, but there current session will continue. The email to change to will be sent as a body request attribute `email`.
+Updating the email is only a private call, and therefor can only be done from the client. Updating the email will change the forwarding email address of the user. However, this is email is not yet verified. A verification email will be sent to the users new email. The user will not be able to access the account until this email has been verified, but there current session will continue. The email to change to will be sent as a body request attribute `email`. Even if you set the email to your current email, you will still have to re-validate your email.
 
 <!-- tabs:start -->
 #### **AJAX Request**
@@ -90,7 +90,7 @@ $.ajax({
   url: "https://dashback.hype-industries/api/v1/user/email",
   type: "post",
   dataType: 'json',
-  data: { email: "email@example.com" }
+  data: { email: "john.smith@gallifrey.com" }
 });
 ```
 
@@ -104,6 +104,36 @@ Please note general [status codes](/documents/developers/api?id=status-codes).
 
 <!-- tabs:end -->
 
+<br>
+
+## Update Name
+![POST /api/v1/user/name](https://img.shields.io/badge/POST-/api/v1/user/name-grey?style=flat-square&labelColor=01B48F)
+![scope private](https://img.shields.io/badge/Scope-private-grey?style=flat-square&labelColor=yellow)<br>
+Updating the name is only a private call, and therefor can only be done from the client. Updating the name
+will instantly change the name. Once the name has successfully been the request will return a `200` status code.
+Pass the new name to update the user in the body as follows, `{ name: "new name" }`.
+
+<!-- tabs:start -->
+#### **AJAX Request**
+This request can only be made from the client computer when they are login.
+```javascript
+$.ajax({
+  url: "https://dashback.hype-industries/api/v1/user/name",
+  type: "post",
+  dataType: 'json',
+  data: { name: "John Smith" }
+});
+```
+
+#### **Status Codes**
+Please note general [status codes](/documents/developers/api?id=status-codes).
+
+| Status Code | Meaning |
+|---|---|
+| `200` | The name has successfully been changed |
+| `400` | The name you sent wasn't valid |
+
+<!-- tabs:end -->
 
 <br>
 

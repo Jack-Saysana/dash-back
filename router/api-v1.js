@@ -104,6 +104,49 @@ class apiv1 {
       });
     });
   }
+
+
+  /* ==============  CHANGE NAME  ============= (PRIVATE)
+    This will contact Auth0 update the name.
+    This request can only be made from client.
+
+    STATUS CODE:
+      400 - No name provided
+      200 - successfull
+      502 - Auth0 Error
+
+    PARAMATERS
+      - _id (STRING) => Auth0 user id
+      - name (STRING) => set new name
+
+    REQUIRES
+      - auth0Token => token to access Auth0
+      - process.env.AUTH0_DOMAIN => auth0 domain
+
+ */
+  static changeName( _id, name ) {
+    return new Promise( ( resolve, reject ) => {
+      if ( name == "" ) {
+        reject( { status: 400, message: "Error: No data was sent" } );
+      }
+      request( {
+        method: "PATCH",
+        url: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/users/" + _id,
+        headers: { authorization: "Bearer " + auth0Token },
+        body: { name: name },
+        json: true
+      }, ( error, response, data ) => {
+        if ( error ) reject( { status: 502, message: "Error: " + error } );
+        console.log( data );
+        // data = JSON.parse( data );
+        if ( !data.statusCode && !data.message ) {
+          resolve( { status: 200, message: "Success: Name updated." } );
+        } else {
+          reject( { status: 502, message: "Error: Auth0 (" + data.statusCode + ") " + data.message } );
+        }
+      });
+    });
+  }
 }
 
 

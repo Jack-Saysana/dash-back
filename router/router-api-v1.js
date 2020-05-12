@@ -44,6 +44,19 @@ router.post( "/user/email", authenticated, ( req, res ) => {
 });
 
 
+/* ==============  CHANGE NAME  ============= (/api/v1/user/name - private)
+  Private API call to update name. This Will
+  instantlly update the name in Auth0.
+*/
+router.post( "/user/name", authenticated, ( req, res ) => {
+  APIv1.changeName( req.user.user_id, req.body.name ).then( data => {
+    res.json( data );
+  }).catch( error => {
+    res.json( error );
+  });
+});
+
+
 // checks for if user login and will later have API token
 function authenticated(req, res, next){
     if ( req.isAuthenticated() )

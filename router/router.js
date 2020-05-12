@@ -401,12 +401,26 @@ router.post("/update", isLoggedIn, async (req, res) => {
 });
 
 
-// image viewer
-// source optional
-// title optional
+/* ==============  Image Viewer  ============= (/view/image/:image/:source?/:title?)
+  Will be updated later with a more API to
+  upload images, and store this data with the
+  database, so comments can be added and other
+  stuff.
+
+  This will display an image hosted on another
+  page. You can also pass a source url, and the
+  title of image, or the title it came from.
+
+  This is used by chrome extension so you can
+  right click and save images. It will save
+  the source site too.
+
+  Must send all data using encodeURIComponent
+*/
 router.get( "/view/image/:image/:source?/:title?", ( req, res ) => {
   res.render( "image-view", { image: ( req.params && req.params.image ) ? decodeURIComponent( req.params.image ) : false, source: ( req.params && req.params.source ) ? decodeURIComponent( req.params.source ) : false, title: ( req.params && req.params.title ) ? decodeURIComponent( req.params.title ) : false });
 });
+
 
 /* ==============  USER PROFILE  ============= (/profile)
   This will display all the information that is

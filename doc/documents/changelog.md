@@ -1,4 +1,7 @@
 # Change Log
+**May 12th, 2020**
+- added API call to update name, request is private at `/api/v1/user/name`
+
 **May 11th, 2020**
 - Added Error Message to Login callback
 - profile page
