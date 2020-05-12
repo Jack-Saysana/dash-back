@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon index.js",
-    "docServer": "docsify serve ./doc --port 3001"
+    "devStart": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.4.1",
     "bootstrap-icons": "^1.0.0-alpha3",
+    "docsify-server-renderer": "^4.11.2",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-flash": "0.0.2",

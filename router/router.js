@@ -445,6 +445,20 @@ router.get( "/profile", isLoggedIn, ( req, res ) => {
 });
 
 
+/* ==============  DOCUMENT SERVER  ============= (/documentation)
+  The documentation server is now served by express
+  nothing else can use any sub-url of documentation
+  to prevent problems with docsify. It servers
+  the contents to /documentation and all the files
+  located in ./doc to /static/documentation
+*/
+router.use( "/static/documentation/", express.static( "doc" ) );
+
+router.get( "/documentation", ( req, res ) => {
+  res.render( "../doc/index" );
+});
+
+
 function isLoggedIn(req, res, next){
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated())

@@ -1,5 +1,5 @@
 ## Setup
-Install docsify `npm i docsify-cli -g` to run document server. To run the doc server run the command `npm run-script docServer`.
+docsify documentation server now runs automatically and served by express 
 
 ## Setup .env
 ```
