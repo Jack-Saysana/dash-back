@@ -137,8 +137,6 @@ class apiv1 {
         json: true
       }, ( error, response, data ) => {
         if ( error ) reject( { status: 502, message: "Error: " + error } );
-        console.log( data );
-        // data = JSON.parse( data );
         if ( !data.statusCode && !data.message ) {
           resolve( { status: 200, message: "Success: Name updated." } );
         } else {
@@ -147,7 +145,30 @@ class apiv1 {
       });
     });
   }
+
+  static requestNewPassword( _id ) {
+    return new Promise( ( resolve, reject ) => {
+      this.user( _id ).then( user => {
+        request( {
+          method: "POST",
+          url: "https://" + process.env.AUTH0_DOMAIN + "/dbconnections/change_password",
+          body: { client_id: process.env.AUTH0_API_CLIENT_ID, email: user.email, connection: 'Username-Password-Authentication' },
+          json: true
+        }, ( error, response, data ) => {
+          if ( error ) reject( { status: 502, message: "Error: " + error } );
+          if ( !data.statusCode && !data.message ) {
+            resolve( { status: 202, message: "Success: We've just sent you an email to reset your password. You have 24 hours.", email: user.email } );
+          } else {
+            reject( { status: 502, message: "Error: Auth0 (" + data.statusCode + ") " + data.message } );
+          }
+        });
+      }).catch( error => {
+        reject( error );
+      });
+    });
+  }
 }
+
 
 
 // Request API Token for Machine to Machine API

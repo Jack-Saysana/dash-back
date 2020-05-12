@@ -57,6 +57,15 @@ router.post( "/user/name", authenticated, ( req, res ) => {
 });
 
 
+router.post( "/user/password", authenticated, ( req, res ) => {
+  APIv1.requestNewPassword( req.user.user_id ).then( data => {
+    res.json( data );
+  }).catch( error => {
+    res.json( error );
+  });
+});
+
+
 // checks for if user login and will later have API token
 function authenticated(req, res, next){
     if ( req.isAuthenticated() )

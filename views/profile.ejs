@@ -32,11 +32,11 @@
         <p class="m-0"><%= user.updated_at %></p>
         <br>
         <!-- <p>To change your email or name please email us. To change your password request a password reset from the signin page.</p> -->
-        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeName">Change Name</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeEmail">Update Email</button> <button type="button" class="btn btn-dark">Update Password</button>
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeName">Change Name</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changeEmail">Update Email</button> <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#updatePassword">Reset Password</button>
         <br>
         <br>
         <a href="/documentation#/documents/legal/privacy-policy.html" style="margin-right: 1rem;">Privacy Policy</a>
-        <a href="/documentation#/documents/legal/terms-of-service.html">Terms of Service</a>
+        <a href="/documentation#/documents/legal/terms-of-service.html" style="margin-right: 1rem;">Terms of Service</a>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
 
   <!-- Email Update -->
   <div class="modal fade" id="changeEmail" tabindex="-1" role="dialog" aria-labelledby="changeEmail" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Update Email</h5>
@@ -70,7 +70,7 @@
 
   <!-- Name Update -->
   <div class="modal fade" id="changeName" tabindex="-1" role="dialog" aria-labelledby="changeName" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Update Name</h5>
@@ -93,6 +93,29 @@
       </div>
     </div>
   </div>
+
+  <!-- Password Reset -->
+  <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="updatePassword" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Password Reset Request</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Please confirm you would like to reset your password. If confirmed we will send a password request email to your email, <b><%= user.email %></b>, where you can reset your password. The password reset link will work for 24 hours.</p>
+          <form action="/api/v1/user/password/" method="POST" id="formUpdatePassword"></form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="formUpdatePassword" value="Submit">Reset Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </body>
 
@@ -163,6 +186,33 @@ $( "#formUpdateName" ).submit(function(e){
     });
 });
 
+// Password reset form
+$( "#formUpdatePassword" ).submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "/api/v1/user/password/",
+        type: "post",
+        success: function( response ){
+          if ( response.status == 202 ) {
+            window.location = "/profile?message=password&email=" + response.email + "&t=" + new Date().getTime();
+          } else {
+            Swal.fire(
+              "Unexpected Error",
+              "Unable to request password reset. Please try again later, or contact support.",
+              "error"
+            )
+          }
+        },
+        fail: function(xhr, textStatus, errorThrown){
+          Swal.fire(
+            "Unexpected Error",
+            "Unable to request password reset. Please try again later, or contact support.",
+            "error"
+          )
+        }
+    });
+});
+
 
 /* Onload message */
 $( document ).ready(function() {
@@ -195,6 +245,23 @@ $( document ).ready(function() {
       Swal.fire(
         "Your name has been updated.",
         "Your name has been updated.",
+        "success"
+      )
+    }
+  }
+
+  // If password request updated
+  if ( params.has( "message" ) && params.get( "message" ) == "password" && params.has( "t" ) && new Date().getTime() - parseInt( params.get( "t" ) ) < 5000 ) { // only show if time since request is less than 5s
+    if ( params.has( "email" ) ) {
+      Swal.fire(
+        "Password Reset Requested",
+        "We've just sent you an email to, <b>" + params.get( "email" ) + "</b>, to reset your password.",
+        "success"
+      )
+    } else {
+      Swal.fire(
+        "Password Reset Requested",
+        "We've just sent you an email to reset your password.",
         "success"
       )
     }
