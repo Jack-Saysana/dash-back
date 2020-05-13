@@ -14,7 +14,7 @@ setInterval( tokenRequest, 8600000 );
 
 class apiv1 {
 
-  /* ==============  USER INFO  ============= (PUBLIC)
+  /* ===============  USER INFO  =============== (PUBLIC)
     Will return a promise with user information,
     based on the the Auth0 user ID.
 
@@ -106,7 +106,7 @@ class apiv1 {
   }
 
 
-  /* ==============  CHANGE NAME  ============= (PRIVATE)
+  /* ==============  CHANGE NAME  ============== (PRIVATE)
     This will contact Auth0 update the name.
     This request can only be made from client.
 
@@ -146,6 +146,24 @@ class apiv1 {
     });
   }
 
+
+  /* =============  PASSWORD RESET  ============ (PRIVATE)
+    Will check with Auth0 to get the users email,
+    then create a database request to send an
+    email for a password reset.
+
+    STATUS CODE:
+      202 - successfull
+      502 - Auth0 Error
+
+    PARAMATERS
+      - _id (STRING) => Auth0 user id
+
+    REQUIRES
+      - auth0Token => token to access Auth0
+      - process.env.AUTH0_DOMAIN => auth0 domain
+      - this.user (APIv1) => to get users email
+ */
   static requestNewPassword( _id ) {
     return new Promise( ( resolve, reject ) => {
       this.user( _id ).then( user => {
@@ -167,7 +185,7 @@ class apiv1 {
       });
     });
   }
-  
+
 }
 
 

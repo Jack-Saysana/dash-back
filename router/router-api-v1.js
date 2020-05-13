@@ -57,6 +57,10 @@ router.post( "/user/name", authenticated, ( req, res ) => {
 });
 
 
+/* ============  PASSWORD RESET  =========== (/api/v1/user/name - private)
+  Private API call for password reset. Will
+  send email to user.
+*/
 router.post( "/user/password", authenticated, ( req, res ) => {
   APIv1.requestNewPassword( req.user.user_id ).then( data => {
     res.json( data );
