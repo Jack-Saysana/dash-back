@@ -137,6 +137,45 @@ Please note general [status codes](/documents/developers/api?id=status-codes).
 
 <br>
 
+## Password Reset Request
+![POST /api/v1/user/password](https://img.shields.io/badge/POST-/api/v1/user/password-grey?style=flat-square&labelColor=01B48F)
+![scope private](https://img.shields.io/badge/Scope-private-grey?style=flat-square&labelColor=yellow)<br>
+Making a password reset request is a private request, and therefor can only be done from the client.
+When a password request is called an email will be sent to the users to the email. The email sent to the
+user contains a link. This link is only viable for 24 hours, and will take the user to a page to reset their password.
+The response, if successful, will contain the users email.
+
+<!-- tabs:start -->
+#### **AJAX Request**
+This request can only be made from the client computer when they are login.
+```javascript
+$.ajax({
+  url: "https://dashback.hype-industries/api/v1/user/name",
+  type: "post"
+});
+```
+
+#### **Status Codes**
+Please note general [status codes](/documents/developers/api?id=status-codes).
+
+| Status Code | Meaning |
+|---|---|
+| `202` | The password reset has successfully been sent to email |
+
+#### **Response Example**
+This is an example of a successful response.
+
+```json
+{
+  "status": 202,
+  "message": "Success: We've just sent you an email to reset your password. You have 24 hours.",
+  "email": "johnsmith@gallifrey.com"
+}
+```
+
+<!-- tabs:end -->
+
+<br>
 
 ## Status Codes
 Status codes are returned with all API request. How ever messages may not always come with the response. The status information is structured as `{ status: 200, message: "Message" }`, with the status code being an integer, and the message being a string. Please note a message does NOT mean there was an error. These are just the general status codes. There is more information in each request API for what each status code means specifically.
