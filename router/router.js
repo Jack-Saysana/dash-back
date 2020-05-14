@@ -112,7 +112,7 @@ router.get("/bookmarks", isLoggedIn, async (req, res) => {
 router.get("/user/:folderId", isLoggedIn, async (req, res) => {
     const user = await User.findOne({ user_id: req.user.user_id });
     if(req.params.folderId == "dashboard"){
-        res.render("dashboard", { user: user, message: req.flash("message")});
+        res.render("dashboard", { user: user, externalUrl: removeQuery(decodeURIComponent(req.query.url)), message: req.flash("message")});
     }else{
         let display = null;
         user.content.forEach(folder => {
@@ -159,7 +159,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
         if(metadata == undefined){
             user.content.push({
                 id: uuidv4(),
-                folderId: req.query.folderId,
+                folderId: req.body.folder,
                 type: "bookmark",
                 content: {
                     url: url,
@@ -173,7 +173,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
         }else{
             user.content.push({
                 id: uuidv4(),
-                folderId: req.query.folderId,
+                folderId: req.body.folder,
                 type: "bookmark",
                 content: {
                     url: url,
@@ -186,7 +186,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
             });
         }
         for(let i = 0; i < user.content.length; i++){
-            if (user.content[i].id == req.query.folderId) {
+            if (user.content[i].id == req.body.folder) {
                 user.content.set(i, {
                     id: user.content[i].id,
                     name: user.content[i].name,
@@ -196,7 +196,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
             }
         }
         try {
-            if (req.query.folderId == "dashboard") {
+            if (req.body.folder == "dashboard") {
                 user.bookmarkCount++;
             }
             await user.save();
@@ -205,20 +205,20 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
                 url: url,
                 notes: req.body.notes.length > 0 ? 1 : 0
             });
-            if (req.query.folderId == "dashboard") {
+            if (req.body.folder == "dashboard") {
                 res.redirect("/bookmarks");
             } else {
-                res.redirect(`/user/${req.query.folderId}`);
+                res.redirect(`/user/${req.body.folder}`);
             }
         } catch (err) {
             res.status(400);
         }
     } else {
         req.flash('message', "Sorry, that url is invalid.");
-        if (req.query.folderId == "dashboard") {
+        if (req.body.folder == "dashboard") {
             res.redirect("/bookmarks");
         } else {
-            res.redirect(`/user/${req.query.folderId}`);
+            res.redirect(`/user/${req.body.folder}`);
         }
     }
 });
@@ -281,11 +281,11 @@ router.post("/delete", isLoggedIn, async (req, res) => {
                 }else if(folderId == "dashboard"){
                     user.bookmarkCount--;
                 }
-                user.content.splice(i, 1);
                 mixpanel.track("Entity Deleted", {
                     user_id: user.user_id,
                     entity_type: user.content[i].type
                 });
+                user.content.splice(i, 1);
             }
         }
         try {

@@ -10,7 +10,7 @@ const router = require("../router/router.js");
 const mongoose = require("mongoose");
 require('../config/passport.config.js')(passport);
 
-mongoose.connect('mongodb://localhost/auth', {
+mongoose.connect('mongodb://localhost/dashback', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
