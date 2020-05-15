@@ -39,7 +39,7 @@
                                     <label>Folder</label>
                                     <div class="control">
                                         <select name="folder">
-                                            <option value="dashboard">Dashboard</option>
+                                            <option value="dashboard">DashBoard</option>
                                             <% user.content.forEach(obj => { %>
                                                 <% if(obj.type == "folder"){ %>
                                                     <option value="<%= obj.id %>"><%= obj.name %></option>
@@ -79,7 +79,7 @@
     </div>
     <div class="container">
         <div class="folder-path">
-            <a href="/user/dashboard" style="color: black; padding-bottom: 1rem;">Dashboard</a>
+            <a href="/user/dashboard" style="color: black; padding-bottom: 1rem;">DashBoard</a>
         </div>
         <% if (message.length > 0) { %>
             <div style="color: red;"><%= message %></div>
@@ -89,8 +89,8 @@
             <br>
             <p class="no-entity-text">Nothing here yet. Let's start moving in. Install the Chrome Extension or press the add button!</p>
             <div class="text-center" style="margin-top: 1rem;">
-              <button data-toggle="modal" data-target="#add-modal" class="btn btn-warning">Add Bookmark</button>
-              <a href="/documentation#/documents/support/browser-extension"><button class="btn btn-outline-warning">Download Chrome Extension</button></a>
+              <button data-toggle="modal" data-target="#add-modal" class="btn btn-warning" style="margin-right: 0.5rem;">Add Bookmark</button>
+              <a href="/documentation#/documents/support/browser-extension"><button class="btn btn-outline-dark">Download Chrome Extension</button></a>
             </div>
         <% }else{ %>
             <% if(user.folderCount > 0){ %>
@@ -227,7 +227,7 @@
                                         <div class="title-label">Folder</div>
                                         <div class="control">
                                             <select name="newFolder">
-                                                <option value="dashboard">Dashboard</option>
+                                                <option value="dashboard">DashBoard</option>
                                                 <% user.content.forEach(obj => { %>
                                                     <% if(obj.type == "folder"){ %>
                                                         <option value="<%= obj.id %>"><%= obj.name %></option>

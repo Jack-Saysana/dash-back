@@ -18,7 +18,6 @@ require("dotenv").config();
 var mixpanel = require( "mixpanel" ).init( "7c2c2239897c7c2d76e501beb27ef81d" );
 
 
-
 // load API v1
 router.use( "/api/v1/", apiv1Router );
 
@@ -112,7 +111,7 @@ router.get("/bookmarks", isLoggedIn, async (req, res) => {
 router.get("/user/:folderId", isLoggedIn, async (req, res) => {
     const user = await User.findOne({ user_id: req.user.user_id });
     if(req.params.folderId == "dashboard"){
-        res.render("dashboard", { user: user, externalUrl: removeQuery(decodeURIComponent(req.query.url)), message: req.flash("message")});
+        res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message")});
     }else{
         let display = null;
         user.content.forEach(folder => {
