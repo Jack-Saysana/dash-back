@@ -45,7 +45,7 @@ router.get( "/signup",
 router.get("/callback", (req, res, next) => {
   // deals with if email isn't verified yet
   if ( req.query && req.query.error ) {
-    res.send( req.query.error_description );
+    res.render( "verify-email.ejs" );
   } else {
     passport.authenticate("auth0", (err, user, info) => {
         if (err) {

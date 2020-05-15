@@ -85,9 +85,13 @@
             <div style="color: red;"><%= message %></div>
         <% } %>
         <% if(user.content.length == 0){ %>
-            <img class="no-entity" src="/images/add-entity.svg">
+            <img class="no-entity" src="/images/dashback-illustration.svg">
             <br>
-            <p class="no-entity-text">Nothing yet. Press the "+" button to create your first bookmark or folder!</p>
+            <p class="no-entity-text">Nothing here yet. Let's start moving in. Install the Chrome Extension or press the add button!</p>
+            <div class="text-center" style="margin-top: 1rem;">
+              <button data-toggle="modal" data-target="#add-modal" class="btn btn-warning">Add Bookmark</button>
+              <a href="/documentation#/documents/support/browser-extension"><button class="btn btn-outline-warning">Download Chrome Extension</button></a>
+            </div>
         <% }else{ %>
             <% if(user.folderCount > 0){ %>
                 <label style="opacity: 75%; padding-top: 1rem;">Folders - <%= user.folderCount %></label>
