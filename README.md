@@ -7,9 +7,12 @@ AUTH0_DOMAIN=hype-industries.auth0.com
 AUTH0_CLIENT_ID="auth0 client id"
 AUTH0_CLIENT_SECRET="auth0 client secret"
 SESSION_SECRET="session code"
+AUTH0_LOGOUT_URL="(if production) https://dashback.hype-industries.com"
+AUTH0_CALLBACK_URL="(if production) https://dashback.hype-industries.com/callback"
 ```
 
 ## Fixme
+- integrate helmate
 - fix propduction mode session memory leak (redis)
 - better error page for login callback
 - 404 page
