@@ -29,6 +29,23 @@
                                     </div>
                                 </div>
                                 <div class="field">
+                                    <label>Folder</label>
+                                    <div class="control">
+                                        <select name="folder">
+                                            <option value="dashboard">Dashboard</option>
+                                            <% user.content.forEach(obj => { %>
+                                                <% if(obj.type == "folder"){ %>
+                                                    <% if(obj.id == folder.id){ %>
+                                                        <option value="<%= obj.id %>" selected><%= obj.name %></option>
+                                                    <% }else{ %>
+                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
+                                                    <% } %>
+                                                <% } %>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="field">
                                     <label>Notes (optional)</label>
                                     <div class="control">
                                         <textarea type="text" name="notes" rows="5" cols="56" style="resize:none;"
@@ -138,9 +155,13 @@
                                         <select name="newFolder">
                                             <option value="dashboard">Dashboard</option>
                                             <% user.content.forEach(obj => { %>
-                                            <% if(obj.type == "folder"){ %>
-                                            <option value="<%= obj.id %>"><%= obj.name %></option>
-                                            <% } %>
+                                                <% if(obj.type == "folder"){ %>
+                                                    <% if(obj.id == folder.id){ %>
+                                                        <option value="<%= obj.id %>" selected><%= obj.name %></option>
+                                                    <% }else{ %>
+                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
+                                                    <% } %>
+                                                <% } %>
                                             <% }); %>
                                         </select>
                                     </div>

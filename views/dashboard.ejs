@@ -2,8 +2,7 @@
 <title>DashBack - Home</title>
 <body>
     <!-- Modal -->
-    <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 1rem;">
                 <div class="modal-header">
@@ -29,7 +28,24 @@
                                 <div class="field">
                                     <label>Bookmark URL</label>
                                     <div class="control">
-                                        <input type="text" name="url" size="56" class="modal-field">
+                                        <% if(externalUrl != "undefined"){ %>
+                                            <input type="text" name="url" size="56" class="modal-field" value="<%= externalUrl %>">
+                                        <% }else{ %>
+                                            <input type="text" name="url" size="56" class="modal-field">
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Folder</label>
+                                    <div class="control">
+                                        <select name="folder">
+                                            <option value="dashboard">Dashboard</option>
+                                            <% user.content.forEach(obj => { %>
+                                                <% if(obj.type == "folder"){ %>
+                                                    <option value="<%= obj.id %>"><%= obj.name %></option>
+                                                <% } %>
+                                            <% }); %>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -282,10 +298,18 @@
     </button>
     <div class="shade" id="shade"></div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- Appzi: Capture Insightful Feedback -->
 <script async src="https://w.appzi.io/bootstrap/bundle.js?token=LwYdk"></script>
 <!-- End Appzi -->
 <%- include("components/footer") %>
 <%- include("components/style") %>
 <%- include("components/context-menu-script") %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<% if(externalUrl != "undefined"){ %>
+    <script>
+        $(window).on('load', function () {
+            $('#add-modal').modal('show');
+        });
+    </script>
+<% } %>
