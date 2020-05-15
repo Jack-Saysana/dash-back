@@ -25,7 +25,9 @@ app.use(express.static("./public"));
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    cookie: {},
+    cookie: {
+      secure: ( app.get("env") === "production" ) ? true : false
+    },
     resave: false,
     saveUninitialized: false
 }));
@@ -33,10 +35,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-if (app.get("env") === "production") {
-    // Serve secure cookies, requires HTTPS
-    session.cookie.secure = true;
-}
 
 app.use("/", router);
 

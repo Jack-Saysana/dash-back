@@ -10,6 +10,7 @@ SESSION_SECRET="session code"
 ```
 
 ## Fixme
+- fix propduction mode session memory leak (redis)
 - better error page for login callback
 - 404 page
 - report 502 errors to logger service
