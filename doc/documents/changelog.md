@@ -5,6 +5,7 @@
 - added status codes for API
 - integrated user feedback button
 - added favicon to home page
+- prevent error when requesting token
 
 **May 13th, 2020**
 - password reset request are now sent to `/api/v1/user/job/password-reset`
