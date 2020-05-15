@@ -1,13 +1,11 @@
 ## Setup
-docsify documentation server now runs automatically and served by express 
+docsify documentation server now runs automatically and served by express
 
 ## Setup .env
 ```
 AUTH0_DOMAIN=hype-industries.auth0.com
 AUTH0_CLIENT_ID="auth0 client id"
-AUTH0_CLIENT_SECRET=-"auth0 client secret"
-AUTH0_API_CLIENT_ID="DashBack API"
-AUTH0_API_CLIENT_SECRET="DashBack API"
+AUTH0_CLIENT_SECRET="auth0 client secret"
 SESSION_SECRET="session code"
 ```
 

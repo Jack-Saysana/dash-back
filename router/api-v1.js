@@ -170,7 +170,7 @@ class apiv1 {
         request( {
           method: "POST",
           url: "https://" + process.env.AUTH0_DOMAIN + "/dbconnections/change_password",
-          body: { client_id: process.env.AUTH0_API_CLIENT_ID, email: user.email, connection: 'Username-Password-Authentication' },
+          body: { client_id: process.env.AUTH0_CLIENT_ID, email: user.email, connection: 'Username-Password-Authentication' },
           json: true
         }, ( error, response, data ) => {
           if ( error ) reject( { status: 502, message: "Error: " + error } );
@@ -198,8 +198,8 @@ function tokenRequest() {
     headers: {'content-type': 'application/x-www-form-urlencoded'},
     form: {
       grant_type: "client_credentials",
-      client_id: process.env.AUTH0_API_CLIENT_ID,
-      client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
       audience: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/"
     }
   }, function (error, response, body) {

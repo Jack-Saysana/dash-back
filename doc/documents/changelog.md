@@ -1,7 +1,18 @@
 # Change Log
+**May 14th, 2020**
+- changed env token from private API to main webapp for authentication
+- mixpanel intagration
+- added status codes for API
+- integrated user feedback button
+- added favicon to home page
+
+**May 13th, 2020**
+- password reset request are now sent to `/api/v1/user/job/password-reset`
+
 **May 12th, 2020**
 - added API call to update name, request is private at `/api/v1/user/name`
 - documentation server is now served by main server
+- added redirect url for tracking
 
 **May 11th, 2020**
 - Added Error Message to Login callback

@@ -10,12 +10,12 @@ const apiv1Router    = require( "./router-api-v1.js" );
 const APIv1          = require( "./api-v1.js" );
 
 
+
 const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
 const getFavicons = require('get-website-favicon');
 require("dotenv").config();
-const mixpanel = require('mixpanel-browser');
-mixpanel.init("eb0a30592efe286cce4daa7c8b19bee4");
+var mixpanel = require( "mixpanel" ).init( "7c2c2239897c7c2d76e501beb27ef81d" );
 
 
 
@@ -419,6 +419,26 @@ router.post("/update", isLoggedIn, async (req, res) => {
 */
 router.get( "/view/image/:image/:source?/:title?", ( req, res ) => {
   res.render( "image-view", { image: ( req.params && req.params.image ) ? decodeURIComponent( req.params.image ) : false, source: ( req.params && req.params.source ) ? decodeURIComponent( req.params.source ) : false, title: ( req.params && req.params.title ) ? decodeURIComponent( req.params.title ) : false });
+});
+
+
+/* ==============  URL REDIRECT  ============= (/redirect/:url/)
+  This will redirect to the url request. Make
+  sure to encodeURIComponent() to create the
+  link. This will register an opened link with
+  mixpanel.
+
+  REQUIRES
+    - mixpanel => tracking
+    - url => for url parsing
+*/
+router.get( "/redirect/:url/", isLoggedIn, ( req, res ) => {
+  mixpanel.track( "Entity Opened", {
+      user_id: req.user.user_id,
+      hypertext: req.params.url,
+      host: url.parse( req.params.url ).hostname
+  });
+  res.redirect( decodeURIComponent( req.params.url ) );
 });
 
 

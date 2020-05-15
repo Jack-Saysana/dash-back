@@ -21,10 +21,12 @@ router.get( "/user", authenticated, ( req, res ) => {
   APIv1.user( req.user.user_id ).then( data => {
     data.active = true;
     delete data.identities;
+    res.status( data.status );
     res.json( data );
   }).catch( error => {
     console.log(error);
     error.active = false;
+    res.status( error.status );
     res.json( error );
   });
 });
@@ -37,8 +39,10 @@ router.get( "/user", authenticated, ( req, res ) => {
 */
 router.post( "/user/email", authenticated, ( req, res ) => {
   APIv1.changeEmail( req.user.user_id, req.body.email ).then( data => {
+    res.status( data.status );
     res.json( data );
   }).catch( error => {
+    res.status( error.status );
     res.json( error );
   });
 });
@@ -50,8 +54,10 @@ router.post( "/user/email", authenticated, ( req, res ) => {
 */
 router.post( "/user/name", authenticated, ( req, res ) => {
   APIv1.changeName( req.user.user_id, req.body.name ).then( data => {
+    res.status( data.status );
     res.json( data );
   }).catch( error => {
+    res.status( error.status );
     res.json( error );
   });
 });
@@ -61,10 +67,12 @@ router.post( "/user/name", authenticated, ( req, res ) => {
   Private API call for password reset. Will
   send email to user.
 */
-router.post( "/user/password", authenticated, ( req, res ) => {
+router.post( "/user/job/password-reset", authenticated, ( req, res ) => {
   APIv1.requestNewPassword( req.user.user_id ).then( data => {
+    res.status( data.status );
     res.json( data );
   }).catch( error => {
+    res.status( error.status );
     res.json( error );
   });
 });
@@ -74,6 +82,7 @@ router.post( "/user/password", authenticated, ( req, res ) => {
 function authenticated(req, res, next){
     if ( req.isAuthenticated() )
         return next();
+    res.status( 401 );
     res.json( { status: 401, message: "User is not login, or the token you have sent isn't valid" } );
 }
 

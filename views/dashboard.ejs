@@ -1,4 +1,5 @@
 <%- include("components/header") %>
+<title>DashBack - Home</title>
 <body>
     <!-- Modal -->
     <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -132,7 +133,7 @@
                     <% user.content.forEach(entity => { %>
                         <% if(entity.type == "bookmark" && entity.folderId == "dashboard"){ %>
                             <% if(entity.content.imgUrl == ""){ %>
-                                <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
+                                <a href="/redirect/<%= encodeURIComponent( entity.content.url ) %>" target="_blank" style="text-decoration: none;">
                                     <div class="card basic entity" data-id="<%= entity.id %>">
                                         <div class="body">
                                             <div class="content">
@@ -148,7 +149,7 @@
                                     </div>
                                 </a>
                             <% }else{ %>
-                                <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
+                              <a href="/redirect/<%= encodeURIComponent( entity.content.url ) %>" target="_blank" style="text-decoration: none;">
                                     <div class="card basic w-image entity" data-id="<%= entity.id %>">
                                         <div class="body">
                                             <div class="image">
@@ -288,4 +289,3 @@
 <%- include("components/style") %>
 <%- include("components/context-menu-script") %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-

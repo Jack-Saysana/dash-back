@@ -138,7 +138,7 @@ Please note general [status codes](/documents/developers/api?id=status-codes).
 <br>
 
 ## Password Reset Request
-![POST /api/v1/user/password](https://img.shields.io/badge/POST-/api/v1/user/password-grey?style=flat-square&labelColor=01B48F)
+![POST /api/v1/user/job/password-reset](https://img.shields.io/badge/POST-/api/v1/user/job/password--reset-grey?style=flat-square&labelColor=01B48F)
 ![scope private](https://img.shields.io/badge/Scope-private-grey?style=flat-square&labelColor=yellow)<br>
 Making a password reset request is a private request, and therefor can only be done from the client.
 When a password request is called an email will be sent to the users to the email. The email sent to the
@@ -150,7 +150,7 @@ The response, if successful, will contain the users email.
 This request can only be made from the client computer when they are login.
 ```javascript
 $.ajax({
-  url: "https://dashback.hype-industries/api/v1/user/name",
+  url: "https://dashback.hype-industries/api/v1/user/job/password-reset",
   type: "post"
 });
 ```
