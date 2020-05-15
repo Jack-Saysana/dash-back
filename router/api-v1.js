@@ -203,8 +203,12 @@ function tokenRequest() {
       audience: "https://" + process.env.AUTH0_DOMAIN + "/api/v2/"
     }
   }, function (error, response, body) {
-    if (error) console.log( error );
-    auth0Token = JSON.parse( body ).access_token;
+    if (error) {
+      console.log( error );
+      tokenRequest();
+    } else {
+      auth0Token = JSON.parse( body ).access_token;
+    }
   });
 }
 
