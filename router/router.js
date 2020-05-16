@@ -110,6 +110,10 @@ router.get("/bookmarks", isLoggedIn, async (req, res) => {
 
 router.get("/user/:folderId", isLoggedIn, async (req, res) => {
     const user = await User.findOne({ user_id: req.user.user_id });
+    mixpanel.track("View Folder", {
+        distinct_id: user.user_id,
+        entity_type: ( req.params.folderId == "dashboard" ) ? "dashback" : "folder"
+    });
     if(req.params.folderId == "dashboard"){
         res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message")});
     }else{
