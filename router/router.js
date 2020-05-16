@@ -200,7 +200,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
             }
             await user.save();
             mixpanel.track("Bookmark Added", {
-                user_id: user.user_id,
+                distinct_id: user.user_id,
                 url: url,
                 notes: req.body.notes.length > 0 ? 1 : 0
             });
@@ -236,7 +236,7 @@ router.post("/folder", isLoggedIn, async (req, res) => {
         try {
             await user.save();
             mixpanel.track("Folder added", {
-                user_id: user.user_id
+                distinct_id: user.user_id
             });
             res.redirect("/bookmarks");
         } catch (err) {
@@ -281,7 +281,7 @@ router.post("/delete", isLoggedIn, async (req, res) => {
                     user.bookmarkCount--;
                 }
                 mixpanel.track("Entity Deleted", {
-                    user_id: user.user_id,
+                    distinct_id: user.user_id,
                     entity_type: user.content[i].type
                 });
                 user.content.splice(i, 1);
@@ -378,7 +378,7 @@ router.post("/update", isLoggedIn, async (req, res) => {
                     })
                 }
                 mixpanel.track("Entity Updated", {
-                    user_id: user.user_id,
+                    distinct_id: user.user_id,
                     entity_type: user.content[i].type
                 });
             }
@@ -433,7 +433,7 @@ router.get( "/view/image/:image/:source?/:title?", ( req, res ) => {
 */
 router.get( "/redirect/:url/", isLoggedIn, ( req, res ) => {
   mixpanel.track( "Entity Opened", {
-      user_id: req.user.user_id,
+      distinct_id: req.user.user_id,
       hypertext: req.params.url,
       host: url.parse( req.params.url ).hostname
   });
