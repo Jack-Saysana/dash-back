@@ -4,7 +4,47 @@
  */
 
 const request      = require( "request" );
+const mongoose     = require( "mongoose" );
+const database     = require( "../models/user.model.js" );
+
 var   auth0Token   = false;
+
+
+{
+  folder: [ {id,name} ]
+  content: [ {id, folderID} ]
+}
+
+
+
+// test
+// database.collection( "users", function (err, collection) {
+//    collection.find().then( data => {
+//      console.log(data)
+//    }).catch( error => {
+//      console.log( error );
+//    } )
+// });
+
+// database.Schema.findOne( { user_id: "auth0|5e988afd3ba81d0c5d9946d8"  } ).then( data => {
+//
+//   data.content.dashback.id( "werwer" ).meta.node = ;
+//
+//   data.content.dashboard.forEach( (item, i) => {
+//     if ( item.id == "werewr" ) {
+//       item.meta.note = newNote;
+//     }
+//     exit;
+//   });
+//
+//   data.save();
+//
+//
+//   data.content.dashboard.push( new database.contentScheme( { url: "https://user:pass@sub.example.com:8080/p/a/t/h?query=string#hash" } ) );
+//   // data.save();
+// }).catch( error => {
+//   console.log( error )
+// });
 
 
 // start token request for API

@@ -9,9 +9,9 @@ const { v4: uuidv4 } = require('uuid');
 const apiv1Router    = require( "./router-api-v1.js" );
 const APIv1          = require( "./api-v1.js" );
 
+const database = require( "../models/user.model" );
+const User = require("../models/user.model").userSchema;
 
-
-const User = require("../models/user.model");
 const urlMetadata = require("url-metadata");
 const getFavicons = require('get-website-favicon');
 require("dotenv").config();
@@ -99,32 +99,105 @@ router.get("/", isNotLoggedIn, (req, res) => {
 router.get("/bookmarks", isLoggedIn, async (req, res) => {
     const user = await User.findOne({user_id: req.user.user_id});
     if(user == null){
-        const newUser = new User({
+        let newUser = new User({
             user_id: req.user.user_id,
-            content: []
+            dashboard: "id",
+            content: {
+              folder: [];
+            }
         });
+
+        newUser.content.folder.push( new database.folderScheme( { name: "Dashboard" } ) );
+        newUser.dashboard = newUser.content.folder[ newUser.content.folder.length ]._id;
         newUser.save();
     }
     res.redirect(`/user/dashboard`)
 });
 
 router.get("/user/:folderId", isLoggedIn, async (req, res) => {
-    const user = await User.findOne({ user_id: req.user.user_id });
-    mixpanel.track("View Folder", {
-        distinct_id: user.user_id,
-        entity_type: ( req.params.folderId == "dashboard" ) ? "dashback" : "folder"
+
+
+    user.find( {user_id: req.user.user_id} ).then( data => {
+      return data.content.folder.id( ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID ).content;
+    }).catch(err => {
+      console.log(err);
     });
-    if(req.params.folderId == "dashboard"){
-        res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message")});
-    }else{
-        let display = null;
-        user.content.forEach(folder => {
-            if(folder.id == req.params.folderId && folder.type == "folder"){
-                display = folder;
-            }
-        });
-        res.render("folder", {folder: display, user: user, message: req.flash("message")});
-    }
+
+    // if id doens't work
+    user.find( { user_id: req.user.user_id } ).then( data => {
+      return data.content.folder.filter( data => {
+        return data._id == ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID;
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+
+
+    // add
+    user.find( { user_id: req.user.user_id } ).then( data => {
+      data.content.folder.filter( data => {
+        return data._id == ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID;
+      }).push( new database.contentScheme( { url: "werewr", meta: { note: "werer" } } ).then( () => {
+        return this;
+      } ).catch( err ) => {
+        throw err;
+      } );
+    }).catch(err => {
+      console.log(err);
+    });
+
+    // const user = await User.findOne({ user_id: req.user.user_id });
+    // mixpanel.track("View Folder", {
+    //     distinct_id: user.user_id,
+    //     entity_type: ( req.params.folderId == "dashboard" ) ? "dashback" : "folder"
+    // });
+    // if(req.params.folderId == "dashboard"){
+    //     res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message")});
+    // }else{
+    //     let display = null;
+    //     user.content.forEach(folder => {
+    //         if(folder.id == req.params.folderId && folder.type == "folder"){
+    //             display = folder;
+    //         }
+    //     });
+    //     res.render("folder", {folder: display, user: user, message: req.flash("message")});
+    // }
+    // User.findOne( { user_id: req.user.user_id } ).then( data => {
+      // if ( req.params.folderId == "dashboard" ) {
+      //   // res.render( "dashboard", {  } )
+      // } else {
+      //
+      // }
+      // try {
+      //   data.content.dashboard.find().then( data => {
+      //     console.log(data);
+      //   }).catch( err => {
+      //     console.log(err)
+      //   });
+      //   data.save().catch( error => {
+      //     console.log(error)
+      //   });
+      //   // data.content.dashboard.find().then( content => {
+      //   //   console.log(data);
+      //   //   res.send( "sub bitch" );
+      //   // }).catch( err => {
+      //   //   console.log( err );
+      //   //   res.send( "folder not found:\n" + err );
+      //   // });
+      // } catch( err ) {
+      //   console.log( err );
+      //   res.send( "folder not found:\n" + err );
+      // }
+
+
+      // data.content.dashboard.push( new database.contentScheme( { url: "https://user:pass@sub.example.com:8080/p/a/t/h?query=string#hash", date: new Date() } ) );
+      // console.log( data );
+      // data.save().catch( error => {
+      //   console.log(error)
+      // } );
+    // }).catch( error => {
+    //   console.log( error )
+    // });
 });
 
 //Create Bookmark
