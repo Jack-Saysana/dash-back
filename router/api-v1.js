@@ -10,10 +10,10 @@ const database     = require( "../models/user.model.js" );
 var   auth0Token   = false;
 
 
-{
+/*{
   folder: [ {id,name} ]
   content: [ {id, folderID} ]
-}
+}*/
 
 
 

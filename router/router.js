@@ -9,8 +9,9 @@ const { v4: uuidv4 } = require('uuid');
 const apiv1Router    = require( "./router-api-v1.js" );
 const APIv1          = require( "./api-v1.js" );
 
-const database = require( "../models/user.model" );
 const User = require("../models/user.model").userSchema;
+const Folder = require("../models/user.model").folderScheme;
+const Bookmark = require("../models/user.model").contentScheme;
 
 const urlMetadata = require("url-metadata");
 const getFavicons = require('get-website-favicon');
@@ -100,271 +101,147 @@ router.get("/bookmarks", isLoggedIn, async (req, res) => {
     const user = await User.findOne({user_id: req.user.user_id});
     if(user == null){
         let newUser = new User({
-            user_id: req.user.user_id,
-            dashboard: "id",
-            content: {
-              folder: [];
-            }
+            user_id: req.user.user_id
         });
-
-        newUser.content.folder.push( new database.folderScheme( { name: "Dashboard" } ) );
-        newUser.dashboard = newUser.content.folder[ newUser.content.folder.length ]._id;
+        //newUser.content.folder.push( new Folder( { name: "Dashboard" } ) );
+        //newUser.content.dashboard = newUser.content.folder[ newUser.content.folder.length ]._id;
         newUser.save();
     }
     res.redirect(`/user/dashboard`)
 });
 
 router.get("/user/:folderId", isLoggedIn, async (req, res) => {
-
-
-    user.find( {user_id: req.user.user_id} ).then( data => {
-      return data.content.folder.id( ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID ).content;
+    User.findOne({ user_id: req.user.user_id }, async (err, user) => {
+        if(err){
+            throw err;
+        }else if(req.params.folderId == "dashboard"){
+            res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message") });
+        }else{
+            let folder = user.content.folder.id(req.params.folderId);
+            res.render("folder", { folder: folder, user: user, message: req.flash("message") });
+        }
     }).catch(err => {
-      console.log(err);
+        res.json(err);
     });
-
-    // if id doens't work
-    user.find( { user_id: req.user.user_id } ).then( data => {
-      return data.content.folder.filter( data => {
-        return data._id == ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID;
-      });
-    }).catch(err => {
-      console.log(err);
-    });
-
-
-    // add
-    user.find( { user_id: req.user.user_id } ).then( data => {
-      data.content.folder.filter( data => {
-        return data._id == ( req.parms.folderID == "dashback" ) ? user.dashboard : req.parms.folderID;
-      }).push( new database.contentScheme( { url: "werewr", meta: { note: "werer" } } ).then( () => {
-        return this;
-      } ).catch( err ) => {
-        throw err;
-      } );
-    }).catch(err => {
-      console.log(err);
-    });
-
-    // const user = await User.findOne({ user_id: req.user.user_id });
-    // mixpanel.track("View Folder", {
-    //     distinct_id: user.user_id,
-    //     entity_type: ( req.params.folderId == "dashboard" ) ? "dashback" : "folder"
-    // });
-    // if(req.params.folderId == "dashboard"){
-    //     res.render("dashboard", { user: user, externalUrl: decodeURIComponent(req.query.url), message: req.flash("message")});
-    // }else{
-    //     let display = null;
-    //     user.content.forEach(folder => {
-    //         if(folder.id == req.params.folderId && folder.type == "folder"){
-    //             display = folder;
-    //         }
-    //     });
-    //     res.render("folder", {folder: display, user: user, message: req.flash("message")});
-    // }
-    // User.findOne( { user_id: req.user.user_id } ).then( data => {
-      // if ( req.params.folderId == "dashboard" ) {
-      //   // res.render( "dashboard", {  } )
-      // } else {
-      //
-      // }
-      // try {
-      //   data.content.dashboard.find().then( data => {
-      //     console.log(data);
-      //   }).catch( err => {
-      //     console.log(err)
-      //   });
-      //   data.save().catch( error => {
-      //     console.log(error)
-      //   });
-      //   // data.content.dashboard.find().then( content => {
-      //   //   console.log(data);
-      //   //   res.send( "sub bitch" );
-      //   // }).catch( err => {
-      //   //   console.log( err );
-      //   //   res.send( "folder not found:\n" + err );
-      //   // });
-      // } catch( err ) {
-      //   console.log( err );
-      //   res.send( "folder not found:\n" + err );
-      // }
-
-
-      // data.content.dashboard.push( new database.contentScheme( { url: "https://user:pass@sub.example.com:8080/p/a/t/h?query=string#hash", date: new Date() } ) );
-      // console.log( data );
-      // data.save().catch( error => {
-      //   console.log(error)
-      // } );
-    // }).catch( error => {
-    //   console.log( error )
-    // });
 });
 
 //Create Bookmark
 router.post("/bookmarks", isLoggedIn, async (req, res) => {
-    const user = await User.findOne({ user_id: req.user.user_id });
-    let url = req.body.url;
-    const protocol = url.substring(0, req.body.url.indexOf(':'));
-    if (protocol == "") {
-        //Enables flexibility in url
-        url = `http://${url}`;
-    }
-    url = removeQuery(url);
-    if(validURL(url)){
-        const metadata = await urlMetadata(url).then(
-            (metadata) => {
-                return {
-                    imgUrl: metadata.image,
-                    title: metadata.title,
-                    desc: metadata.description
-                };
-            },
-            (error) => {
-                console.log(error);
+    User.findOne({ user_id: req.user.user_id }, async (err, user) => {
+        let url = req.body.url.substring(0, req.body.url.indexOf(':')) == "" ? `http://${req.body.url}` : req.body.url;
+        if(validURL(url)){
+            let metadata = await urlMetadata(url).then(
+                (metadata) => {
+                    return metadata;
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+            const flavicons = await getFavicons(url).then(
+                data => {
+                    return data;
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+            const flavIndex = getIdealFalviconIndex(flavicons.icons);
+            if(metadata != undefined){
+                metadata["flavUrl"] = flavIndex == -1 ? '' : flavicons.icons[flavIndex].src;
+                metadata.image = validURL(metadata.image) ? metadata.image : "";
+            }else{
+                metadata = {
+                    url: url,
+                    title: url,
+                    image: "",
+                    description: "",
+                    flavUrl: ""
+                }
             }
-        );
-        const flavicons = await getFavicons(url).then(
-            data => {
-                return data;
-            },
-            error =>{
-                console.log(error);
-            }
-        );
-        const flavIndex = getIdealFalviconIndex(flavicons.icons);
-        if(metadata == undefined){
-            user.content.push({
-                id: uuidv4(),
-                folderId: req.body.folder,
-                type: "bookmark",
-                content: {
+            if(req.body.folder == "dashboard"){
+                user.content.dashboard.push(new Bookmark({
                     url: url,
                     notes: req.body.notes,
-                    imgUrl: '',
-                    flavUrl: flavIndex == -1 ? '' : flavicons.icons[flavIndex].src,
-                    title: removeQuery(url),
-                    desc: ''
-                }
-            });
-        }else{
-            user.content.push({
-                id: uuidv4(),
-                folderId: req.body.folder,
-                type: "bookmark",
-                content: {
+                    meta: metadata
+                }));
+            }else{
+                user.content.folder.id(req.body.folder).content.push(new Bookmark({
                     url: url,
                     notes: req.body.notes,
-                    imgUrl: validURL(metadata.imgUrl) ? metadata.imgUrl : "",
-                    flavUrl: flavIndex == -1 ? '' : flavicons.icons[flavIndex].src,
-                    title: metadata.title,
-                    desc: metadata.desc
-                }
-            });
-        }
-        for(let i = 0; i < user.content.length; i++){
-            if (user.content[i].id == req.body.folder) {
-                user.content.set(i, {
-                    id: user.content[i].id,
-                    name: user.content[i].name,
-                    type: user.content[i].type,
-                    bookmarkCount: user.content[i].bookmarkCount + 1
+                    meta: metadata
+                }));
+            }
+            try{
+                user.save();
+                mixpanel.track("Bookmark Added", {
+                    distinct_id: user.user_id,
+                    url: url,
+                    notes: req.body.notes.length > 0 ? 1 : 0
                 });
+                if (req.body.folder == "dashboard") {
+                    res.redirect("/bookmarks");
+                } else {
+                    res.redirect(`/user/${req.body.folder}`);
+                }
+            }catch{
+                res.status(400);
             }
-        }
-        try {
-            if (req.body.folder == "dashboard") {
-                user.bookmarkCount++;
-            }
-            await user.save();
-            mixpanel.track("Bookmark Added", {
-                distinct_id: user.user_id,
-                url: url,
-                notes: req.body.notes.length > 0 ? 1 : 0
-            });
-            if (req.body.folder == "dashboard") {
-                res.redirect("/bookmarks");
-            } else {
-                res.redirect(`/user/${req.body.folder}`);
-            }
-        } catch (err) {
-            res.status(400);
-        }
-    } else {
-        req.flash('message', "Sorry, that url is invalid.");
-        if (req.body.folder == "dashboard") {
+        }else{
+            req.flash("message", "Sorry, invalid url");
             res.redirect("/bookmarks");
-        } else {
-            res.redirect(`/user/${req.body.folder}`);
         }
-    }
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 //Create Folder
 router.post("/folder", isLoggedIn, async (req, res) => {
-    const user = await User.findOne({ user_id: req.user.user_id });
-    if(user.folderCount < 3){
-        user.content.push({
-            id: uuidv4(),
-            name: req.body.name,
-            type: "folder",
-            bookmarkCount: 0
-        });
-        user.folderCount++;
-        try {
-            await user.save();
-            mixpanel.track("Folder added", {
-                distinct_id: user.user_id
-            });
+    User.findOne({ user_id: req.user.user_id }, async (err, user) => {
+        if(err){
+            throw err;
+        }else if(user.content.folder.length < 3){
+            user.content.folder.push(new Folder({
+                name: req.body.name
+            }));
+            try{
+                await user.save();
+                mixpanel.track("Folder added", {
+                    distinct_id: user.user_id
+                });
+                res.redirect("/bookmarks");
+            }catch{
+                res.status(400);
+            }
+        }else{
+            req.flash('message', "Sorry, you can't have more than 3 folders.");
             res.redirect("/bookmarks");
-        } catch (err) {
-            res.status(400);
         }
-    }else{
-        req.flash('message', "Sorry, you can't have more than 3 folders.");
-        res.redirect("/bookmarks");
-    }
+    }).catch(err =>{
+        res.json(err);
+    });
 });
-
-// UI NOTE - flash warning message if deleting a folder with contents
 
 //Delete bookmark or folder
 router.post("/delete", isLoggedIn, async (req, res) => {
-    const user = await User.findOne({ user_id: req.user.user_id });
-    let folderId;
-    if(req.query.id != null){
-        for(let i = 0; i < user.content.length; i++){
-            if (user.content[i].id == req.query.id){
-                folderId = user.content[i].folderId;
-                if(user.content[i].type == "folder"){
-                    user.folderCount--;
-                    for(let k = 0; k < user.content.length; k++){
-                       if(user.content[k].folderId == user.content[i].id){
-                           user.content.splice(k, 1);
-                           k--;
-                       }
-                    }
-                }else if(folderId != "dashboard"){
-                    for(let g = 0; g < user.content.length; g++){
-                        if (user.content[g].id == user.content[i].folderId) {
-                            user.content.set(g, {
-                                id: user.content[g].id,
-                                name: user.content[g].name,
-                                type: user.content[g].type,
-                                bookmarkCount: user.content[g].bookmarkCount - 1
-                            });
-                        }
-                    }
-                }else if(folderId == "dashboard"){
-                    user.bookmarkCount--;
+    User.findOne({ user_id: req.user.user_id }, async (err, user) => {
+        let folderId;
+        if(user.content.dashboard.id(req.query.id) != null){
+            user.content.dashboard.id(req.query.id).remove();
+            folderId = "dashboard";
+        }else if(user.content.folder.id(req.query.id) != null){
+            user.content.folder.id(req.query.id).remove();
+            folderId = "dashboard";  
+        }else{
+            user.content.folder.forEach(folder => {
+                if(folder.content.id(req.query.id) != null){
+                    folder.content.id(req.query.id).remove();
+                    folderId = folder._id;
                 }
-                mixpanel.track("Entity Deleted", {
-                    distinct_id: user.user_id,
-                    entity_type: user.content[i].type
-                });
-                user.content.splice(i, 1);
-            }
+            })
         }
-        try {
+        try{
             await user.save();
             if (folderId == "dashboard" || folderId == undefined) {
                 res.redirect("/bookmarks");
@@ -374,106 +251,79 @@ router.post("/delete", isLoggedIn, async (req, res) => {
         } catch (err) {
             res.status(400);
         }
-    }else{
-        req.flash('message', "Invalid id for deletion");
-        res.redirect("/bookmarks");
-    }
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 //Update bookmark or folder
 router.post("/update", isLoggedIn, async (req, res) => {
-    const user = await User.findOne({ user_id: req.user.user_id });
-    let folderId;
-    let goodNewId = false;
-    if(req.query.id != null){
-        for (let i = 0; i < user.content.length; i++) {
-            if (user.content[i].id == req.query.id) {
-                folderId = user.content[i].folderId;
-                if(user.content[i].type == "bookmark"){
-                    if (user.content[i].folderId == req.body.newFolder) {
-                        goodNewId = true;
-                    } else if (req.body.newFolder == "dashboard") {
-                        goodNewId = true;
-                    } else {
-                        user.content.forEach(entity => {
-                            if (entity.id == req.body.newFolder) {
-                                goodNewId = true;
-                            }
-                        });
-                    }
-                    if(!goodNewId){
+    User.findOne({ user_id: req.user.user_id }, async (err, user) => {
+        let folderId;
+        let goodNewId = false;
+        if (user.content.dashboard.id(req.query.id) != undefined) {
+            goodNewId = req.body.newFolder == "dashboard" || user.content.folder.id(req.body.newFolder) != undefined;
+            folderId = "dashboard";
+            if(goodNewId){
+                if (req.body.newFolder == "dashboard") {
+                    user.content.dashboard.id(req.query.id).set("notes", req.body.notes);
+                    user.content.dashboard.id(req.query.id).set("meta.title", req.body.title);
+                } else {
+                    user.content.dashboard.id(req.query.id).set("meta.title", req.body.title);
+                    user.content.folder.id(req.body.newFolder).content.push(new Bookmark({
+                        url: user.content.dashboard.id(req.query.id).url,
+                        notes: req.body.notes,
+                        meta: user.content.dashboard.id(req.query.id).meta
+                    }));
+                    user.content.dashboard.id(req.query.id).remove();
+                }
+            } else {
+                req.flash('message', "Invalid target folder");
+            }
+        } else if (user.content.folder.id(req.query.id) != undefined) {
+            user.content.folder.id(req.query.id).set("name", req.body.name);
+            folderId = "dashboard";
+        } else {
+            user.content.folder.forEach(folder => {
+                if (folder.content.id(req.query.id) != undefined) {
+                    goodNewId = req.body.newFolder == "dashboard" || user.content.folder.id(req.body.newFolder) != undefined;
+                    folderId = folder._id;
+                    if(goodNewId){
+                        if(req.body.newFolder == "dashboard"){
+                            folder.content.id(req.query.id).set("meta.title", req.body.title);
+                            user.content.dashboard.push(new Bookmark({
+                                url: folder.content.id(req.query.id).url,
+                                notes: req.body.notes,
+                                meta: folder.content.id(req.query.id).meta
+                            }));
+                            folder.content.id(req.query.id).remove();
+                        }else if(req.body.newFolder == folder._id){
+                            folder.content.id(req.query.id).set("notes", req.body.notes);
+                            folder.content.id(req.query.id).set("meta.title", req.body.title);
+                        }else{
+                            folder.content.id(req.query.id).set("meta.title", req.body.title);
+                            user.content.folder.id(req.body.newFolder).content.push(new Bookmark({
+                                url: folder.content.id(req.query.id).url,
+                                notes: req.body.notes,
+                                meta: folder.content.id(req.query.id).meta
+                            }));
+                            folder.content.id(req.query.id).remove();
+                        }
+                    }else{
                         req.flash('message', "Invalid target folder");
                     }
-                    if(goodNewId && user.content[i].folderId != req.body.newFolder){
-                        if(user.content[i].folderId == "dashboard"){
-                            user.bookmarkCount--;
-                        }else{
-                            for (let g = 0; g < user.content.length; g++) {
-                                if (user.content[i].folderId == user.content[g].id) {
-                                    user.content.set(g, {
-                                        id: user.content[g].id,
-                                        name: user.content[g].name,
-                                        type: user.content[g].type,
-                                        bookmarkCount: user.content[g].bookmarkCount - 1
-                                    });
-                                }
-                            }
-                        }
-                        if(req.body.newFolder == "dashboard"){
-                            user.bookmarkCount++;
-                        }else{
-                            for (let g = 0; g < user.content.length; g++) {
-                                if (user.content[g].id == req.body.newFolder) {
-                                    user.content.set(g, {
-                                        id: user.content[g].id,
-                                        name: user.content[g].name,
-                                        type: user.content[g].type,
-                                        bookmarkCount: user.content[g].bookmarkCount + 1
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    user.content.set(i, {
-                        id: user.content[i].id,
-                        folderId: goodNewId ? req.body.newFolder : user.content[i].folderId,
-                        type: user.content[i].type,
-                        content:{
-                            url: user.content[i].content.url,
-                            notes: req.body.notes,
-                            imgUrl: user.content[i].content.imgUrl,
-                            title: req.body.title,
-                            desc: user.content[i].content.desc
-                        }
-                    });
-                }else{
-                    user.content.set(i, {
-                        id: user.content[i].id,
-                        name: req.body.name,
-                        type: user.content[i].type,
-                        bookmarkCount: user.content[i].bookmarkCount
-                    })
                 }
-                mixpanel.track("Entity Updated", {
-                    distinct_id: user.user_id,
-                    entity_type: user.content[i].type
-                });
-            }
+            });
         }
-        try {
-            await user.save();
-            if (folderId == "dashboard" || folderId == undefined) {
-                res.redirect("/bookmarks");
-            } else {
-                res.redirect(`/user/${folderId}`);
-            }
-        } catch (err) {
-            res.status(400);
+        await user.save();
+        if (folderId == "dashboard" || folderId == undefined) {
+            res.redirect("/bookmarks");
+        } else {
+            res.redirect(`/user/${folderId}`);
         }
-    }else{
-        req.flash('message', "Invalid update id");
-        res.redirect("/bookmarks");
-    }
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 

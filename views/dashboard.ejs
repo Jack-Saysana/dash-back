@@ -40,10 +40,8 @@
                                     <div class="control">
                                         <select name="folder">
                                             <option value="dashboard">DashBoard</option>
-                                            <% user.content.forEach(obj => { %>
-                                                <% if(obj.type == "folder"){ %>
-                                                    <option value="<%= obj.id %>"><%= obj.name %></option>
-                                                <% } %>
+                                            <% user.content.folder.forEach(obj => { %>
+                                                <option value="<%= obj._id %>"><%= obj.name %></option>
                                             <% }); %>
                                         </select>
                                     </div>
@@ -79,12 +77,12 @@
     </div>
     <div class="container">
         <div class="folder-path">
-            <a href="/user/dashboard" style="color: black; padding-bottom: 1rem;">DashBoard</a>
+            <a href="/user/dashboard" style="color: black; padding-bottom: 1rem;">Dashboard</a>
         </div>
         <% if (message.length > 0) { %>
             <div style="color: red;"><%= message %></div>
         <% } %>
-        <% if(user.content.length == 0){ %>
+        <% if(user.content.dashboard.length == 0 && user.content.folder.length == 0){ %>
             <img class="no-entity" src="/images/dashback-illustration.svg">
             <br>
             <!-- <p class="no-entity-text">Nothing here yet. Let's start moving in. Install the Chrome Extension or press the add button!</p>
@@ -97,133 +95,130 @@
               <button data-toggle="modal" data-target="#add-modal" class="btn btn-warning" style="margin-right: 0.5rem;">Add Bookmark</button>
             </div>
         <% }else{ %>
-            <% if(user.folderCount > 0){ %>
-                <label style="opacity: 75%; padding-top: 1rem;">Folders - <%= user.folderCount %></label>
+            <% if(user.content.folder.length > 0){ %>
+                <label style="opacity: 75%; padding-top: 1rem;">Folders - <%= user.content.folder.length %></label>
                 <div class="card-columns folder-container">
-                    <% user.content.forEach(entity => { %>
-                        <% if(entity.type == "folder"){ %>
-                            <a href="/user/<%= entity.id %>">
-                                <div class="entity card folder" data-id="<%= entity.id %>">
-                                    <div class="body">
-                                        <svg class="bi bi-folder-fill folder-img" width="1.4em" height="1.4em" viewBox="0 0 16 16"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M9.828 3h3.982a2 2 0 011.992 2.181l-.637 7A2 2 0 0113.174 14H2.826a2 2 0 01-1.991-1.819l-.637-7a1.99 1.99 0 01.342-1.31L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 006.172 2H2.5a1 1 0 00-1 .981l.006.139z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        <div class="folder-title"><%= entity.name %></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="bookmark-preview" id="<%= entity.id %>">
-                                <div class="bookmark-preview-header">
-                                    <div class="backdrop">
-                                        <img src="/images/ffeb3a.png">
-                                    </div>
-                                    <div class="logo">
-                                        <img class="logo-img" src="/images/folder-logo.png">
-                                    </div>
-                                    <div class="content">
-                                        <div class="title"><%= entity.name %></div>
-                                        <div class="website">Folder</div>
-                                    </div>
-                                </div>
-                                <form action="/update?id=<%= entity.id %>" method="POST" class="body">
-                                    <div class="field">
-                                        <div class="title-label">Name</div>
-                                        <div class="control">
-                                            <input class="title" type="text" name="name" value="<%= entity.name %>" size="52">
-                                        </div>
-                                    </div>
-                                    <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
-                                </form>
-                                <div class="option-buttons" style="margin-top: 23rem;">
-                                    <a href="/user/<%= entity.id %>">
-                                        <button class="yellow-btn option-btn">Open</button>
-                                    </a>
-                                    <button class="yellow-btn option-btn">Back</button>
-                                    <form action="/delete?id=<%= entity.id %>" method="POST">
-                                        <button type="submit" class="btn btn-dark option-btn">Delete</button>
-                                    </form>
+                    <% user.content.folder.forEach(entity => { %>
+                        <a href="/user/<%= entity._id %>">
+                            <div class="entity card folder" data-id="<%= entity._id %>">
+                                <div class="body">
+                                    <svg class="bi bi-folder-fill folder-img" width="1.4em" height="1.4em" viewBox="0 0 16 16"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M9.828 3h3.982a2 2 0 011.992 2.181l-.637 7A2 2 0 0113.174 14H2.826a2 2 0 01-1.991-1.819l-.637-7a1.99 1.99 0 01.342-1.31L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 006.172 2H2.5a1 1 0 00-1 .981l.006.139z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <div class="folder-title"><%= entity.name %></div>
                                 </div>
                             </div>
-                        <% } %>
+                        </a>
+                        <div class="bookmark-preview" id="<%= entity._id %>">
+                            <div class="bookmark-preview-header">
+                                <div class="backdrop">
+                                    <img src="/images/ffeb3a.png">
+                                </div>
+                                <div class="logo">
+                                    <img class="logo-img" src="/images/folder-logo.png">
+                                </div>
+                                <div class="content">
+                                    <div class="title"><%= entity.name %></div>
+                                    <div class="website">Folder</div>
+                                </div>
+                            </div>
+                            <form action="/update?id=<%= entity._id %>" method="POST" class="body">
+                                <div class="field">
+                                    <div class="title-label">Name</div>
+                                    <div class="control">
+                                        <input class="title" type="text" name="name" value="<%= entity.name %>" size="52">
+                                    </div>
+                                </div>
+                                <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
+                            </form>
+                            <div class="option-buttons" style="margin-top: 23rem;">
+                                <a href="/user/<%= entity._id %>">
+                                    <button class="yellow-btn option-btn">Open</button>
+                                </a>
+                                <button class="yellow-btn option-btn">Back</button>
+                                <form action="/delete?id=<%= entity._id %>" method="POST">
+                                    <button type="submit" class="btn btn-dark option-btn">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     <% }) %>
                 </div>
             <% } %>
-            <% if(user.bookmarkCount > 0){ %>
-                <label style="opacity: 75%; padding-top: 1rem;" class="bookmark-label">Bookmarks - <%=user.bookmarkCount %></label>
+            <% if(user.content.dashboard.length > 0){ %>
+                <label style="opacity: 75%; padding-top: 1rem;" class="bookmark-label">Bookmarks - <%=user.content.dashboard.length %></label>
                 <div class="card-columns bookmark-container">
-                    <% user.content.forEach(entity => { %>
-                        <% if(entity.type == "bookmark" && entity.folderId == "dashboard"){ %>
-                            <% if(entity.content.imgUrl == ""){ %>
-                                <a href="/redirect/<%= encodeURIComponent( entity.content.url ) %>" target="_blank" style="text-decoration: none;">
-                                    <div class="card basic entity" data-id="<%= entity.id %>">
+                    <% user.content.dashboard.forEach(entity => { %>
+                            <% if(entity.meta.image == ""){ %>
+                                <a href="/redirect/<%= encodeURIComponent( entity.link ) %>" target="_blank" style="text-decoration: none;">
+                                    <div class="card basic entity" data-id="<%= entity._id %>">
                                         <div class="body">
                                             <div class="content">
-                                                <div class="card-title"><%= entity.content.title %></div>
-                                                <div class="card-website"><%= entity.content.url %></div>
-                                                <% if(entity.content.notes == ""){ %>
-                                                <div class="card-desc"><%= entity.content.desc %></div>
+                                                <div class="card-title"><%= entity.meta.title %></div>
+                                                <div class="card-website"><%= entity.link %></div>
+                                                <% if(entity.notes == ""){ %>
+                                                    <div class="card-desc"><%= entity.meta.description %></div>
                                                 <% }else{ %>
-                                                <div class="card-desc"><%= entity.content.notes %></div>
+                                                    <div class="card-desc"><%= entity.notes %></div>
                                                 <% } %>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             <% }else{ %>
-                              <a href="/redirect/<%= encodeURIComponent( entity.content.url ) %>" target="_blank" style="text-decoration: none;">
-                                    <div class="card basic w-image entity" data-id="<%= entity.id %>">
+                              <a href="/redirect/<%= encodeURIComponent( entity.link ) %>" target="_blank" style="text-decoration: none;">
+                                    <div class="card basic w-image entity" data-id="<%= entity._id %>">
                                         <div class="body">
                                             <div class="image">
-                                                <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; margin-left: -1rem; width: 300px;">
+                                                <img src="<%= entity.meta.image %>" style="position: absolute; display: block; margin-left: -1rem; width: 300px;">
                                             </div>
                                             <div class="content">
-                                                <div class="card-title"><%= entity.content.title %></div>
-                                                <div class="card-website"><%= entity.content.url %></div>
-                                                <% if(entity.content.notes == ""){ %>
-                                                <div class="card-desc"><%= entity.content.desc %></div>
+                                                <div class="card-title"><%= entity.meta.title %></div>
+                                                <div class="card-website"><%= entity.link %></div>
+                                                <% if(entity.notes == ""){ %>
+                                                    <div class="card-desc"><%= entity.meta.description %></div>
                                                 <% }else{ %>
-                                                <div class="card-desc"><%= entity.content.notes %></div>
+                                                    <div class="card-desc"><%= entity.notes %></div>
                                                 <% } %>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             <% } %>
-                            <div class="bookmark-preview" id="<%= entity.id %>">
+                            <div class="bookmark-preview" id="<%= entity._id %>">
                                 <div class="bookmark-preview-header">
                                     <div class="backdrop">
-                                        <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; width: 200px;"
+                                        <img src="<%= entity.meta.image %>" style="position: absolute; display: block; width: 200px;"
                                             onerror="this.onerror=null;this.src='/images/ffeb3a.png';">
                                     </div>
                                     <div class="logo">
-                                        <img class="logo-img" src="<%= entity.content.flavUrl %>"
+                                        <img class="logo-img" src="<%= entity.meta.flavUrl %>"
                                             onerror="this.onerror=null;this.src='/images/default-flav.png';">
                                     </div>
                                     <div class="content">
-                                        <div class="title"><%= entity.content.title %></div>
-                                        <div class="website"><%= entity.content.url %></div>
-                                        <div class="description"><%= entity.content.desc %></div>
+                                        <div class="title"><%= entity.meta.title %></div>
+                                        <div class="website"><%= entity.link %></div>
+                                        <div class="description"><%= entity.description %></div>
                                     </div>
                                 </div>
-                                <form action="/update?id=<%= entity.id %>" method="POST" class="body">
+                                <form action="/update?id=<%= entity._id %>" method="POST" class="body">
                                     <div class="field">
                                         <div class="title-label">Title</div>
                                         <div class="control">
-                                            <input class="title" type="text" name="title" value="<%= entity.content.title %>" size="52">
+                                            <input class="title" type="text" name="title" value="<%= entity.meta.title %>" size="52">
                                         </div>
                                     </div>
                                     <div class="field">
                                         <div class="title-label">Description</div>
                                         <div class="control">
-                                            <% if(entity.content.notes == ""){ %>
+                                            <% if(entity.notes == ""){ %>
                                             <textarea class="desc" name="notes" style="resize:none;" rows="4"
-                                                cols="52"><%= entity.content.desc %></textarea>
+                                                cols="52"><%= entity.meta.description %></textarea>
                                             <% }else{ %>
                                             <textarea class="desc" name="notes" style="resize:none;" rows="4"
-                                                cols="52"><%= entity.content.notes %></textarea>
+                                                cols="52"><%= entity.notes %></textarea>
                                             <% } %>
                                         </div>
                                     </div>
@@ -232,10 +227,8 @@
                                         <div class="control">
                                             <select name="newFolder">
                                                 <option value="dashboard">DashBoard</option>
-                                                <% user.content.forEach(obj => { %>
-                                                    <% if(obj.type == "folder"){ %>
-                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
-                                                    <% } %>
+                                                <% user.content.folder.forEach(obj => { %>
+                                                    <option value="<%= obj._id %>"><%= obj.name %></option>
                                                 <% }); %>
                                             </select>
                                         </div>
@@ -243,16 +236,15 @@
                                     <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
                                 </form>
                                 <div class="option-buttons">
-                                    <a href="<%= entity.content.url %>" target="_blank">
+                                    <a href="<%= entity.link %>" target="_blank">
                                         <button class="yellow-btn option-btn">Open</button>
                                     </a>
                                     <a class="yellow-btn option-btn" href="/bookmarks">Back</a>
-                                    <form action="/delete?id=<%= entity.id %>" method="POST">
+                                    <form action="/delete?id=<%= entity._id %>" method="POST">
                                         <button type="submit" class="btn btn-dark option-btn">Delete</button>
                                     </form>
                                 </div>
                             </div>
-                        <% } %>
                     <% }) %>
                 </div>
             <% } %>

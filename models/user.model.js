@@ -1,5 +1,5 @@
 const mongoose = require( "mongoose" );
-const url      = require( "url" );
+const url = require( "url" );
 
 const Schema = mongoose.Schema;
 
@@ -39,6 +39,10 @@ const contentScheme = new Schema({
         return "";
       }
     },
+  },
+  notes: {
+    type: String,
+    required: false
   },
   opened: { // times it was opened
     type: Number,

@@ -21,7 +21,7 @@
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-bookmark" role="tabpanel"
                             aria-labelledby="nav-home-tab">
-                            <form action="/bookmarks?folderId=<%= folder.id %>" method="POST" class="modal-form">
+                            <form action="/bookmarks?folderId=<%= folder._id %>" method="POST" class="modal-form">
                                 <div class="field">
                                     <label>Bookmark URL</label>
                                     <div class="control">
@@ -33,13 +33,11 @@
                                     <div class="control">
                                         <select name="folder">
                                             <option value="dashboard">Dashboard</option>
-                                            <% user.content.forEach(obj => { %>
-                                                <% if(obj.type == "folder"){ %>
-                                                    <% if(obj.id == folder.id){ %>
-                                                        <option value="<%= obj.id %>" selected><%= obj.name %></option>
-                                                    <% }else{ %>
-                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
-                                                    <% } %>
+                                            <% user.content.folder.forEach(obj => { %>
+                                                <% if(obj._id == folder._id){ %>
+                                                    <option value="<%= obj._id %>" selected><%= obj.name %></option>
+                                                <% }else{ %>
+                                                    <option value="<%= obj._id %>"><%= obj.name %></option>
                                                 <% } %>
                                             <% }); %>
                                         </select>
@@ -71,114 +69,108 @@
         <% if (message.length > 0) { %>
             <div style="color: red;"><%= message %></div>
         <% } %>
-        <% if(folder.bookmarkCount > 0){ %>
-            <label style="opacity: 75%; padding-top: 1rem;">Bookmarks - <%=folder.bookmarkCount %></label>
+        <% if(folder.content.length > 0){ %>
+            <label style="opacity: 75%; padding-top: 1rem;">Bookmarks - <%=folder.content.length %></label>
             <div class="card-columns">
-                <% user.content.forEach(entity => { %>
-                    <% if(entity.folderId == folder.id){ %>
-
-
-                        <% if(entity.content.imgUrl == ""){ %>
-                            <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
-                                <div class="card basic entity" data-id="<%= entity.id %>">
-                                    <div class="body">
-                                        <div class="content">
-                                            <div class="card-title"><%= entity.content.title %></div>
-                                            <div class="card-website"><%= entity.content.url %></div>
-                                            <% if(entity.content.notes == ""){ %>
-                                            <div class="card-desc"><%= entity.content.desc %></div>
-                                            <% }else{ %>
-                                            <div class="card-desc"><%= entity.content.notes %></div>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        <% }else{ %>
-                            <a href="<%= entity.content.url %>" target="_blank" style="text-decoration: none;">
-                                <div class="card basic w-image entity" data-id="<%= entity.id %>">
-                                    <div class="body">
-                                        <div class="image">
-                                            <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; margin-left: -1rem; width: 300px;">
-                                        </div>
-                                        <div class="content">
-                                            <div class="card-title"><%= entity.content.title %></div>
-                                            <div class="card-website"><%= entity.content.url %></div>
-                                            <% if(entity.content.notes == ""){ %>
-                                            <div class="card-desc"><%= entity.content.desc %></div>
-                                            <% }else{ %>
-                                            <div class="card-desc"><%= entity.content.notes %></div>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        <% } %>
-
-
-                        <div class="bookmark-preview" id="<%= entity.id %>">
-                            <div class="bookmark-preview-header">
-                                <div class="backdrop">
-                                    <img src="<%= entity.content.imgUrl %>" style="position: absolute; display: block; width: 500px;" onerror="this.onerror=null;this.src='/images/ffeb3a.png';">
-                                </div>
-                                <div class="logo">
-                                    <img class="logo-img" src="<%= entity.content.flavUrl %>" onerror="this.onerror=null;this.src='/images/default-flav.png';">
-                                </div>
-                                <div class="content">
-                                    <div class="title"><%= entity.content.title %></div>
-                                    <div class="website"><%= entity.content.url %></div>
-                                    <div class="description"><%= entity.content.desc %></div>
-                                </div>
-                            </div>
-                            <form action="/update?id=<%= entity.id %>" method="POST" class="body">
-                                <div class="field">
-                                    <div class="title-label">Title</div>
-                                    <div class="control">
-                                        <input class="title" type="text" name="title" value="<%= entity.content.title %>" size="52">
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="title-label">Description</div>
-                                    <div class="control">
-                                        <% if(entity.content.notes == ""){ %>
-                                        <textarea class="desc" name="notes" style="resize:none;" rows="4"
-                                            cols="52"><%= entity.content.desc %></textarea>
+                <% folder.content.forEach(entity => { %>
+                    <% if(entity.meta.image == ""){ %>
+                        <a href="<%= entity.link %>" target="_blank" style="text-decoration: none;">
+                            <div class="card basic entity" data-id="<%= entity._id %>">
+                                <div class="body">
+                                    <div class="content">
+                                        <div class="card-title"><%= entity.meta.title %></div>
+                                        <div class="card-website"><%= entity.link %></div>
+                                        <% if(entity.notes == ""){ %>
+                                            <div class="card-desc"><%= entity.meta.description %></div>
                                         <% }else{ %>
-                                        <textarea class="desc" name="notes" style="resize:none;" rows="4"
-                                            cols="52"><%= entity.content.notes %></textarea>
+                                            <div class="card-desc"><%= entity.notes %></div>
                                         <% } %>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <div class="title-label">Folder</div>
-                                    <div class="control">
-                                        <select name="newFolder">
-                                            <option value="dashboard">Dashboard</option>
-                                            <% user.content.forEach(obj => { %>
-                                                <% if(obj.type == "folder"){ %>
-                                                    <% if(obj.id == folder.id){ %>
-                                                        <option value="<%= obj.id %>" selected><%= obj.name %></option>
-                                                    <% }else{ %>
-                                                        <option value="<%= obj.id %>"><%= obj.name %></option>
-                                                    <% } %>
-                                                <% } %>
-                                            <% }); %>
-                                        </select>
+                            </div>
+                        </a>
+                    <% }else{ %>
+                        <a href="<%= entity.link %>" target="_blank" style="text-decoration: none;">
+                            <div class="card basic w-image entity" data-id="<%= entity._id %>">
+                                <div class="body">
+                                    <div class="image">
+                                        <img src="<%= entity.meta.image %>" style="position: absolute; display: block; margin-left: -1rem; width: 300px;">
+                                    </div>
+                                    <div class="content">
+                                        <div class="card-title"><%= entity.meta.title %></div>
+                                        <div class="card-website"><%= entity.link %></div>
+                                        <% if(entity.notes == ""){ %>
+                                            <div class="card-desc"><%= entity.meta.description %></div>
+                                        <% }else{ %>
+                                            <div class="card-desc"><%= entity.notes %></div>
+                                        <% } %>
                                     </div>
                                 </div>
-                                <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
-                            </form>
-                            <div class="option-buttons">
-                                <a href="<%= entity.content.url %>" target="_blank">
-                                    <button class="yellow-btn option-btn">Open</button>
-                                </a>
-                                <a class="yellow-btn option-btn" href="/user/<%= folder.id %>">Back</a>
-                                <form action="/delete?id=<%= entity.id %>" method="POST">
-                                    <button type="submit" class="btn btn-dark option-btn">Delete</button>
-                                </form>
+                            </div>
+                        </a>
+                    <% } %>
+
+
+                    <div class="bookmark-preview" id="<%= entity._id %>">
+                        <div class="bookmark-preview-header">
+                            <div class="backdrop">
+                                <img src="<%= entity.meta.image %>" style="position: absolute; display: block; width: 500px;" onerror="this.onerror=null;this.src='/images/ffeb3a.png';">
+                            </div>
+                            <div class="logo">
+                                <img class="logo-img" src="<%= entity.meta.flavUrl %>" onerror="this.onerror=null;this.src='/images/default-flav.png';">
+                            </div>
+                            <div class="content">
+                                <div class="title"><%= entity.meta.title %></div>
+                                <div class="website"><%= entity.link %></div>
+                                <div class="description"><%= entity.meta.description %></div>
                             </div>
                         </div>
-                    <% } %>
+                        <form action="/update?id=<%= entity._id %>" method="POST" class="body">
+                            <div class="field">
+                                <div class="title-label">Title</div>
+                                <div class="control">
+                                    <input class="title" type="text" name="title" value="<%= entity.meta.title %>" size="52">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="title-label">Description</div>
+                                <div class="control">
+                                    <% if(entity.notes == ""){ %>
+                                    <textarea class="desc" name="notes" style="resize:none;" rows="4"
+                                        cols="52"><%= entity.meta.description %></textarea>
+                                    <% }else{ %>
+                                    <textarea class="desc" name="notes" style="resize:none;" rows="4"
+                                        cols="52"><%= entity.notes %></textarea>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="title-label">Folder</div>
+                                <div class="control">
+                                    <select name="newFolder">
+                                        <option value="dashboard">Dashboard</option>
+                                        <% user.content.folder.forEach(obj => { %>
+                                            <% if(obj._id == folder._id){ %>
+                                                <option value="<%= obj._id %>" selected><%= obj.name %></option>
+                                            <% }else{ %>
+                                                <option value="<%= obj._id %>"><%= obj.name %></option>
+                                            <% } %>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
+                        </form>
+                        <div class="option-buttons">
+                            <a href="<%= entity.link %>" target="_blank">
+                                <button class="yellow-btn option-btn">Open</button>
+                            </a>
+                            <a class="yellow-btn option-btn" href="/user/<%= folder._id %>">Back</a>
+                            <form action="/delete?id=<%= entity._id %>" method="POST">
+                                <button type="submit" class="btn btn-dark option-btn">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 <% }) %>
             </div>
         <% }else{ %>
