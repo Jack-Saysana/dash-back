@@ -103,8 +103,6 @@ router.get("/bookmarks", isLoggedIn, async (req, res) => {
         let newUser = new User({
             user_id: req.user.user_id
         });
-        //newUser.content.folder.push( new Folder( { name: "Dashboard" } ) );
-        //newUser.content.dashboard = newUser.content.folder[ newUser.content.folder.length ]._id;
         newUser.save();
     }
     res.redirect(`/user/dashboard`)
@@ -173,7 +171,7 @@ router.post("/bookmarks", isLoggedIn, async (req, res) => {
                 }));
             }
             try{
-                user.save();
+                await user.save();
                 mixpanel.track("Bookmark Added", {
                     distinct_id: user.user_id,
                     url: url,

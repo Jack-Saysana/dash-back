@@ -202,6 +202,9 @@
 
         function menuItemListener(link) {
             const id = entityInContext.getAttribute("data-id");
+            if(link.getAttribute("data-action") == "open"){
+                window.open(document.getElementById(id).getElementsByClassName("bookmark-preview-header")[0].getElementsByClassName("content")[0].getElementsByClassName("website")[0].innerHTML, "_blank");
+            }
             if (link.getAttribute("data-action") == "delete") {
                 submitRequest.action = `/${link.getAttribute("data-action")}?id=${id}`;
                 submitRequest.submit();
