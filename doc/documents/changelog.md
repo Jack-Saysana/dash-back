@@ -1,4 +1,8 @@
 # Change Log
+**June 5th, 2020**
+- Right Click to open on Bookmark
+- Chrome Extension is now available for download
+
 **May 14th, 2020**
 - changed env token from private API to main webapp for authentication
 - mixpanel intagration
