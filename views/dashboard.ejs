@@ -29,9 +29,9 @@
                                     <label>Bookmark URL</label>
                                     <div class="control">
                                         <% if(externalUrl != "undefined"){ %>
-                                            <input type="text" name="url" size="56" class="modal-field" value="<%= externalUrl %>" autofocus>
+                                            <input id="url-input" type="text" name="url" size="56" class="modal-field" value="<%= externalUrl %>">
                                         <% }else{ %>
-                                            <input type="text" name="url" size="56" class="modal-field" autofocus>
+                                            <input id="url-input" type="text" name="url" size="56" class="modal-field">
                                         <% } %>
                                     </div>
                                 </div>
@@ -152,12 +152,12 @@
                 <div class="card-columns bookmark-container">
                     <% user.content.dashboard.forEach(entity => { %>
                             <% if(entity.meta.image == ""){ %>
-                                <a href="/redirect/<%= encodeURIComponent( entity.link ) %>" target="_blank" style="text-decoration: none;">
+                                <a href="/redirect/<%= encodeURIComponent( entity.url ) %>" target="_blank" style="text-decoration: none;">
                                     <div class="card basic entity" data-id="<%= entity._id %>">
                                         <div class="body">
                                             <div class="content">
                                                 <div class="card-title"><%= entity.meta.title %></div>
-                                                <div class="card-website"><%= entity.link %></div>
+                                                <div class="card-website"><%= entity.url %></div>
                                                 <% if(entity.notes == ""){ %>
                                                     <div class="card-desc"><%= entity.meta.description %></div>
                                                 <% }else{ %>
@@ -168,7 +168,7 @@
                                     </div>
                                 </a>
                             <% }else{ %>
-                              <a href="/redirect/<%= encodeURIComponent( entity.link ) %>" target="_blank" style="text-decoration: none;">
+                              <a href="/redirect/<%= encodeURIComponent( entity.url ) %>" target="_blank" style="text-decoration: none;">
                                     <div class="card basic w-image entity" data-id="<%= entity._id %>">
                                         <div class="body">
                                             <div class="image">
@@ -176,7 +176,7 @@
                                             </div>
                                             <div class="content">
                                                 <div class="card-title"><%= entity.meta.title %></div>
-                                                <div class="card-website"><%= entity.link %></div>
+                                                <div class="card-website"><%= entity.url %></div>
                                                 <% if(entity.notes == ""){ %>
                                                     <div class="card-desc"><%= entity.meta.description %></div>
                                                 <% }else{ %>
@@ -199,7 +199,7 @@
                                     </div>
                                     <div class="content">
                                         <div class="title"><%= entity.meta.title %></div>
-                                        <div class="website"><%= entity.link %></div>
+                                        <div class="website"><%= entity.url %></div>
                                         <div class="description"><%= entity.description %></div>
                                     </div>
                                 </div>
@@ -236,7 +236,7 @@
                                     <input type="submit" value="Save" class="yellow-btn option-btn save-btn">
                                 </form>
                                 <div class="option-buttons">
-                                    <a href="<%= entity.link %>" target="_blank">
+                                    <a href="<%= entity.url %>" target="_blank">
                                         <button class="yellow-btn option-btn">Open</button>
                                     </a>
                                     <a class="yellow-btn option-btn" href="/bookmarks">Back</a>

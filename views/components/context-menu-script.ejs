@@ -97,6 +97,7 @@
          * Initialise our application's code.
          */
         function init() {
+            autoFocus();
             contextListener();
             clickListener();
             keyupListener();
@@ -198,6 +199,12 @@
             window.onresize = function (e) {
                 toggleMenuOff();
             };
+        }
+
+        function autoFocus(){
+            $('#add-modal').on('shown.bs.modal', function () {
+                $('#url-input').focus();
+            })  
         }
 
         function menuItemListener(link) {
