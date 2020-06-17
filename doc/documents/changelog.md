@@ -1,4 +1,10 @@
 # Change Log
+**June 17th, 2020**
+- better cards on mobile
+- improved context menu for mobile
+- margin on buttons in profile fixed for mobile
+- title fixed on mobile
+
 **June 5th, 2020**
 - Right Click to open on Bookmark
 - Chrome Extension is now available for download

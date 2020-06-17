@@ -141,6 +141,7 @@
     .card {
         color: black;
         display: inline-block;
+        width: 100%;
         transition: all .4s ease;
         border-radius: 1.5rem;
         background: white;
@@ -357,6 +358,8 @@
         z-index: 100;
     }
 
+
+
     .context-menu-items {
         list-style-type: none;
     }
@@ -382,5 +385,68 @@
 
     .context-menu--active {
         display: block;
+    }
+
+    @media only screen and (max-width: 400px) {
+        .context-menu {
+            position: fixed;
+            left: 0 !important;
+            bottom: 0 !important;
+            top: auto !important;
+            z-index: 9999999999;
+            width: 100%;
+        }
+
+        .context-menu-items {
+            margin: 0;
+            padding: 0;
+        }
+
+        .context-menu-item {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .card.basic .body .content {
+            padding: 1rem;
+        }
+
+        .card.basic .body .content .card-title {
+            font-size: 0.7rem;
+        }
+
+        .card.basic .body .content .card-desc {
+            font-size: 0.5rem;
+        }
+
+        .card.basic .body .content .card-website {
+            font-size: 0.5rem;
+        }
+
+        .modal.show .modal-dialog {
+            margin: 0;
+        }
+
+        .modal-content {
+            border-radius: 1rem 1rem 0 0 !important;
+            position: absolute;
+            top: 10vh;
+            border: none;
+            height: 90vh;
+        }
+
+        
+    }
+
+    .bi-bookmark-fill {
+        margin: -1.4rem 0rem 0rem auto;
+    }
+
+    .modal-content {
+        overflow: hidden;
+    }
+
+    .modal-header .close {
+        margin-left: 1rem;
     }
 </style>
